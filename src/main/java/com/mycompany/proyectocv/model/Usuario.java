@@ -9,5 +9,11 @@ package com.mycompany.proyectocv.model;
  * @author Lenovo
  */
 public class Usuario {
-    
+
+    private int idUsuario;
+    private String usuario;
+    private String contraseña;
+    private String rol; // "Administrador" o "Cajero"
+    private boolean estado;
+
 }

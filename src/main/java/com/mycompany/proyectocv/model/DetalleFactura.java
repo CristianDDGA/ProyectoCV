@@ -9,5 +9,12 @@ package com.mycompany.proyectocv.model;
  * @author Lenovo
  */
 public class DetalleFactura {
-    
+
+    private int idDetalle;
+    private int idFactura;
+    private int idProducto;
+    private int cantidad;
+    private double precioUnitario;
+    private double subtotal;
+
 }

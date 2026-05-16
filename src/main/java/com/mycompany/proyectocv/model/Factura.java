@@ -4,10 +4,20 @@
  */
 package com.mycompany.proyectocv.model;
 
+import java.util.Date;
+
 /**
  *
  * @author Lenovo
  */
 public class Factura {
-    
+
+    private int idFactura;
+    private String numeroFactura;
+    private Date fecha;
+    private int idUsuario;
+    private double subtotal;
+    private double iva;
+    private double total;
+
 }
