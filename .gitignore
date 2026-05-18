@@ -1,1 +1,16 @@
 /target/
+
+# Ignorar archivos de configuración local de NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+.nb-gradle/
+
+# Archivos de sistema operativo basura
+.DS_Store
+Thumbs.db
+
+
+# Ignorar las credenciales locales de la base de datos
+db.properties
