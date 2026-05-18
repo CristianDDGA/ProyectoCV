@@ -4,6 +4,7 @@
  */
 package com.mycompany.proyectocv.daos;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Driver;
@@ -18,22 +19,31 @@ import javax.swing.JOptionPane;
 public class ConexionBD {
 
     private Connection conexion;
+
     public Connection conectarBD() {
+        Properties props = new Properties();
+
         try {
-            // Registramos el driver de PostgreSQL
+            // Buscamos el archivo directamente en la raíz física del proyecto
+            FileInputStream in = new FileInputStream("db.properties");
+            props.load(in);
+            in.close();
+
+            String url = props.getProperty("db.url");
+            String user = props.getProperty("db.user");
+            String pass = props.getProperty("db.password");
+
             Class.forName("org.postgresql.Driver");
+            conexion = DriverManager.getConnection(url, user, pass);
 
-            // Conectamos directamente usando tus datos nativos
-            conexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ventas_cv", "postgres", "root");
-
-            // Si llega aquí, es que todo está perfecto
             return conexion;
 
+        } catch (java.io.FileNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "Error: Falta el archivo db.properties en la raíz del proyecto.");
+            return null;
         } catch (Exception e) {
-            // Si hay un error de contraseña o puerto, saltará este aviso con el motivo exacto
-            JOptionPane.showMessageDialog(null, "Error de conexión físico: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error de conexión: " + e.getMessage());
             return null;
         }
-
     }
 }

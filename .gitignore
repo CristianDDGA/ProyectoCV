@@ -10,3 +10,7 @@
 # Archivos de sistema operativo basura
 .DS_Store
 Thumbs.db
+
+
+# Ignorar las credenciales locales de la base de datos
+db.properties
