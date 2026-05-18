@@ -21,7 +21,7 @@ public class ConexionBD {
     
         try {
             Class.forName("org.postgresql.Driver");
-            conexion=DriverManager.getConnection("jdbc:postgresql://localhost:5432/ventas_cv","postgres","root");
+            conexion=DriverManager.getConnection("jdbc:postgresql://localhost:5432/ventas_cv","postgres","matiusjbg");
             JOptionPane.showMessageDialog(null, "Conectado");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
