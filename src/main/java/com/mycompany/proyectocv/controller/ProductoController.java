@@ -6,6 +6,7 @@ package com.mycompany.proyectocv.controller;
 
 import com.mycompany.proyectocv.daos.ProductoDAO;
 import com.mycompany.proyectocv.model.Producto;
+import com.mycompany.proyectocv.model.Usuario;
 import com.mycompany.proyectocv.views.ProductoView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,18 +15,21 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import com.mycompany.proyectocv.views.ProductoView;
+import com.mycompany.proyectocv.daos.ProductoDAO;
+import com.mycompany.proyectocv.controller.ProductoController;
+import com.mycompany.proyectocv.daos.UsuarioDAO;
 
 /**
  *
  * @author Lenovo
  */
-public class ProductoController implements ActionListener{
+public class ProductoController implements ActionListener {
 
-    
-    
     private ProductoView vista;
     private ProductoDAO dao;
     private DefaultTableModel modeloTabla;
+    private UsuarioDAO daoUser;
 
     public ProductoController(ProductoView vista, ProductoDAO dao) {
         this.vista = vista;
@@ -47,7 +51,9 @@ public class ProductoController implements ActionListener{
 
         listar(); // Llenar la tabla al iniciar la pantalla
     }
-@Override
+
+    @Override
+    
     public void actionPerformed(ActionEvent e) {
         // --- BOTÓN GUARDAR (jButton1) ---
         if (e.getSource() == vista.jButton1) {
@@ -116,14 +122,13 @@ public class ProductoController implements ActionListener{
     }
 
     // --- MÉTODOS AUXILIARES ---
-
     private void listar() {
         List<Producto> lista = dao.listarProductos();
         modeloTabla = (DefaultTableModel) vista.jTable1.getModel();
-        
+
         // Configuramos las columnas por si NetBeans te dejó "Title 1, Title 2..."
         modeloTabla.setColumnIdentifiers(new Object[]{"ID", "Código", "Nombre", "Precio", "Stock"});
-        
+
         Object[] ob = new Object[5];
         for (int i = 0; i < lista.size(); i++) {
             ob[0] = lista.get(i).getIdProducto();
@@ -168,5 +173,5 @@ public class ProductoController implements ActionListener{
         return vista.jTxtCodigo.getText().isEmpty() || vista.jTxtNombre.getText().isEmpty()
                 || vista.jTxtPrecio.getText().isEmpty() || vista.jTxtStock.getText().isEmpty();
     }
-    
+
 }
