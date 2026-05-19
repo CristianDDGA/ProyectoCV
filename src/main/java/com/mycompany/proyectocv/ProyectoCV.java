@@ -2,12 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
 
-package com.mycompany.proyectocv;
+package com.mycompany.proyectocv;       
 
 import com.mycompany.proyectocv.controller.LoginController;
 import com.mycompany.proyectocv.daos.ConexionBD;
 import com.mycompany.proyectocv.daos.UsuarioDAO;
-import com.mycompany.proyectocv.views.LoginView;
+
+import com.mycompany.proyectocv.views.VistaLogin;
 import java.sql.Connection;
 
 /**
@@ -24,7 +25,7 @@ public static void main(String[] args) {
         System.out.println("Conexión establecida: " + conn);
         
         // 2. Levantar la interfaz de Login con su respectivo Controlador
-        LoginView vistaLogin = new LoginView();
+        VistaLogin vistaLogin = new VistaLogin();
         UsuarioDAO daoUser = new UsuarioDAO();
         
         // Aquí se enlaza la vista con el controlador para que los botones tengan vida

@@ -7,7 +7,7 @@ package com.mycompany.proyectocv.controller;
 import com.mycompany.proyectocv.daos.ProductoDAO;
 import com.mycompany.proyectocv.model.Producto;
 import com.mycompany.proyectocv.model.Usuario;
-import com.mycompany.proyectocv.views.ProductoView;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -15,10 +15,11 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import com.mycompany.proyectocv.views.ProductoView;
+
 import com.mycompany.proyectocv.daos.ProductoDAO;
 import com.mycompany.proyectocv.controller.ProductoController;
 import com.mycompany.proyectocv.daos.UsuarioDAO;
+import com.mycompany.proyectocv.views.VistaProductos;
 
 /**
  *
@@ -26,23 +27,28 @@ import com.mycompany.proyectocv.daos.UsuarioDAO;
  */
 public class ProductoController implements ActionListener {
 
-    private ProductoView vista;
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+  /*  private VistaProductos vista;
     private ProductoDAO dao;
     private DefaultTableModel modeloTabla;
     private UsuarioDAO daoUser;
 
-    public ProductoController(ProductoView vista, ProductoDAO dao) {
+    public ProductoController(VistaProductos vista, ProductoDAO dao) {
         this.vista = vista;
         this.dao = dao;
 
         // Escuchar clics en los botones según tus nombres de variable
-        this.vista.jButton1.addActionListener(this); // Guardar
-        this.vista.jButton2.addActionListener(this); // Actualizar
-        this.vista.jButton4.addActionListener(this); // Eliminar
-        this.vista.jButton3.addActionListener(this); // Limpiar
+        this.vista.jBtnGuardar.addActionListener(this); // Guardar
+        this.vista.jBtnActualizar.addActionListener(this); // Actualizar
+        this.vista.jBtnEliminar.addActionListener(this); // Eliminar
+        this.vista.jBtnLimpiar.addActionListener(this); // Limpiar
 
         // Escuchar clics en la tabla para pasar los datos a las cajas de texto
-        this.vista.jTable1.addMouseListener(new MouseAdapter() {
+        this.vista.jTblProductos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 llenarCampos();
@@ -56,7 +62,7 @@ public class ProductoController implements ActionListener {
     
     public void actionPerformed(ActionEvent e) {
         // --- BOTÓN GUARDAR (jButton1) ---
-        if (e.getSource() == vista.jButton1) {
+        if (e.getSource() == vista.jBtnGuardar) {
             if (camposVacios()) {
                 JOptionPane.showMessageDialog(vista, "Llene todos los campos");
             } else {
@@ -78,7 +84,7 @@ public class ProductoController implements ActionListener {
         }
 
         // --- BOTÓN ACTUALIZAR (jButton2) ---
-        if (e.getSource() == vista.jButton2) {
+        if (e.getSource() == vista.jBtnActualizar) {
             if ("".equals(vista.jTxtID.getText())) {
                 JOptionPane.showMessageDialog(vista, "Seleccione un producto de la tabla");
             } else {
@@ -101,7 +107,7 @@ public class ProductoController implements ActionListener {
         }
 
         // --- BOTÓN ELIMINAR (jButton4) ---
-        if (e.getSource() == vista.jButton4) {
+        if (e.getSource() == vista.jBtnEliminar) {
             if (!"".equals(vista.jTxtID.getText())) {
                 int id = Integer.parseInt(vista.jTxtID.getText());
                 if (dao.eliminar(id)) {
@@ -116,7 +122,7 @@ public class ProductoController implements ActionListener {
         }
 
         // --- BOTÓN LIMPIAR (jButton3) ---
-        if (e.getSource() == vista.jButton3) {
+        if (e.getSource() == vista.jBtnLimpiar) {
             limpiarCampos();
         }
     }
@@ -173,5 +179,5 @@ public class ProductoController implements ActionListener {
         return vista.jTxtCodigo.getText().isEmpty() || vista.jTxtNombre.getText().isEmpty()
                 || vista.jTxtPrecio.getText().isEmpty() || vista.jTxtStock.getText().isEmpty();
     }
-
+*/
 }
