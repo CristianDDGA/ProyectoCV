@@ -50,7 +50,7 @@ public class VistaLogin extends javax.swing.JFrame {
         Right.setBackground(new java.awt.Color(51, 132, 242));
         Right.setPreferredSize(new java.awt.Dimension(400, 500));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\Lenovo\\Documents\\NetBeansProjects\\ProyectoCV\\src\\ICON\\UTA-STORE.png")); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTA-STORE.png"))); // NOI18N
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 32)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
