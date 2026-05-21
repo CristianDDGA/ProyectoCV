@@ -40,12 +40,15 @@ public class LoginController implements ActionListener {
                     // --- AQUÍ ESTÁ LA MAGIA DEL REDIRECCIONAMIENTO ---
                     if (u.getRol().equals("Administrador")) {
                         
-                        // Si es Admin, abrimos el Gestor de Productos
+                        // Si es Admin, abrimos el Dashboard principal (Gestor de Productos)
                         VistaProductos productoView = new VistaProductos();
                         ProductoDAO productoDao = new ProductoDAO();
-                       // ProductoController productoController = new ProductoController(productoView, productoDao);
                         
-                        productoView.setSize(850, 600); // Forzamos tamaño por si acaso
+                        // ENLAZAMOS LA VISTA CON EL CONTROLADOR DE PRODUCTOS
+                        ProductoController productoController = new ProductoController(productoView, productoDao);
+                        
+                        // Ajustamos el tamaño para que quepa bien el menú lateral y la tabla
+                        productoView.setSize(1000, 700); 
                         productoView.setLocationRelativeTo(null);
                         productoView.setVisible(true);
                         
@@ -64,5 +67,5 @@ public class LoginController implements ActionListener {
                 }
             }
         }
-}
+    }
 }

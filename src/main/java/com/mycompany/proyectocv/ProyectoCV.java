@@ -1,15 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
 package com.mycompany.proyectocv;       
 
+import com.formdev.flatlaf.FlatLightLaf; // IMPORTACIÓN DEL TEMA
 import com.mycompany.proyectocv.controller.LoginController;
 import com.mycompany.proyectocv.daos.ConexionBD;
 import com.mycompany.proyectocv.daos.UsuarioDAO;
-
 import com.mycompany.proyectocv.views.VistaLogin;
 import java.sql.Connection;
+import javax.swing.UIManager; // IMPORTACIÓN PARA APLICAR EL TEMA
 
 /**
  *
@@ -17,9 +14,16 @@ import java.sql.Connection;
  */
 public class ProyectoCV {
 
-public static void main(String[] args) {
+    public static void main(String[] args) {
         
-// 1. Probar y levantar la conexión a PostgreSQL
+        // --- 0. Inicializar el diseño moderno (FlatLaf) ---
+        try {
+            UIManager.setLookAndFeel(new FlatLightLaf());
+        } catch (Exception ex) {
+            System.err.println("No se pudo inicializar FlatLaf");
+        }
+        
+        // 1. Probar y levantar la conexión a PostgreSQL
         ConexionBD cn = new ConexionBD();
         Connection conn = cn.conectarBD();
         System.out.println("Conexión establecida: " + conn);
@@ -35,4 +39,4 @@ public static void main(String[] args) {
         vistaLogin.setLocationRelativeTo(null); // Centrar en pantalla
         vistaLogin.setVisible(true);
     }
-}
+}   
