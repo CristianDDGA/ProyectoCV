@@ -35,6 +35,9 @@ public class InventarioController implements ActionListener {
         this.vista.jBtnSumarStock.addActionListener(this);
         this.vista.jBtnLimpiarInv.addActionListener(this);
         this.vista.jBtnBuscarInventario.addActionListener(this);
+        
+        this.vista.jBtnInventario.addActionListener(this);
+        this.vista.jBtnSumarStock.addActionListener(this);
         // Bloquear edición manual de ID y Nombre por seguridad
         this.vista.jTxtIdProductoInv.setEditable(false);
         this.vista.jTxtNombreProductoInv.setEditable(false);
@@ -51,12 +54,16 @@ public class InventarioController implements ActionListener {
         listar(); // Llenar la tabla al iniciar
     }
 
-    @Override
+  @Override
     public void actionPerformed(ActionEvent e) {
         
-        // NOTA: Ya no hay código de navegación aquí
-        
-                // --- BOTÓN BUSCAR ---
+        // --- REFRESCO AUTOMÁTICO AL CAMBIAR DE PESTAÑA ---
+        if (e.getSource() == vista.jBtnInventario) {
+            listar(); 
+            limpiarCampos();
+        }
+
+        // --- BOTÓN BUSCAR ---
         if (e.getSource() == vista.jBtnBuscarInventario) {
             String textoBusqueda = vista.jTxtBuscarInventario.getText().trim();
             if (textoBusqueda.isEmpty()) {

@@ -53,8 +53,9 @@ public class ProductoController implements ActionListener {
             if (textoBusqueda.isEmpty()) {
 
                 listar();
-            }
+            }else{
             buscar(textoBusqueda);
+            }
         }
 
         // --- BOTÓN GUARDAR ---
@@ -141,6 +142,7 @@ public class ProductoController implements ActionListener {
         limpiarTabla(); // Borramos lo que haya actualmente en la tabla
 
         // 3. Llenamos la tabla con los resultados filtrados
+        
         Object[] ob = new Object[4];
         for (int i = 0; i < lista.size(); i++) {
             ob[0] = lista.get(i).getIdProducto();
@@ -181,7 +183,7 @@ public class ProductoController implements ActionListener {
         modeloTabla = (DefaultTableModel) vista.jTable1.getModel();
         // Solo 4 columnas
         modeloTabla.setColumnIdentifiers(new Object[]{"ID", "Código", "Nombre", "Precio"});
-
+        limpiarTabla();
         Object[] ob = new Object[4];
         for (int i = 0; i < lista.size(); i++) {
             ob[0] = lista.get(i).getIdProducto();

@@ -15,11 +15,9 @@ public class ProductoDAO {
 
     private ConexionBD conexion = new ConexionBD();
 
-    
-    
     public List<Producto> buscarProductos(String valor) {
         List<Producto> lista = new ArrayList<>();
-        String sql = "SELECT * FROM productos WHERE nombre ILIKE ?"; 
+        String sql = "SELECT * FROM productos WHERE nombre ILIKE ?";
         try {
             Connection con = conexion.conectarBD();
             PreparedStatement ps = con.prepareStatement(sql);
@@ -38,18 +36,20 @@ public class ProductoDAO {
         }
         return lista;
     }
+
     // 1. REGISTRAR PRODUCTO E INVENTARIO (Transacción)
     public boolean registrar(Producto producto) {
-        String sqlProducto = "INSERT INTO productos (codigo, nombre, precio) VALUES (?, ?, ?)";
-        // Quemamos el número 0 en el SQL porque todo producto nuevo nace sin stock físico
-        String sqlInventario = "INSERT INTO inventario (id_producto, stock_actual) VALUES (?, 0)";
+// 1. Insertamos el producto con sus fechas para que la BD no lo rechace (con su paréntesis final bien puesto)
+        String sqlProducto = "INSERT INTO productos (codigo, nombre, precio, fecha_creacion, fecha_modificacion) VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
 
+// 2. Insertamos el inventario con el stock inicial en 1 para que no rompa la regla del CHECK > 0
+        String sqlInventario = "INSERT INTO inventario (id_producto, stock_actual) VALUES (?, 0)";
         Connection conn = null;
 
         try {
             conn = conexion.conectarBD();
             // Apagamos el auto-commit para iniciar la transacción segura
-            conn.setAutoCommit(false); 
+            conn.setAutoCommit(false);
 
             // 1er INSERT: Tabla productos (Pedimos que nos devuelva el ID generado)
             PreparedStatement psProducto = conn.prepareStatement(sqlProducto, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -71,13 +71,15 @@ public class ProductoDAO {
             psInventario.executeUpdate();
 
             // Si ambos Inserts fueron exitosos, confirmamos los cambios
-            conn.commit(); 
+            conn.commit();
             return true;
 
         } catch (Exception e) {
             // Si algo falla, deshacemos todo (Rollback) para no dejar datos a medias
             try {
-                if (conn != null) conn.rollback(); 
+                if (conn != null) {
+                    conn.rollback();
+                }
             } catch (Exception ex) {
                 System.err.println("Error en rollback: " + ex.getMessage());
             }
@@ -86,7 +88,9 @@ public class ProductoDAO {
         } finally {
             // Restauramos el comportamiento normal de la conexión
             try {
-                if (conn != null) conn.setAutoCommit(true);
+                if (conn != null) {
+                    conn.setAutoCommit(true);
+                }
             } catch (Exception e) {
                 System.err.println("Error al restaurar autocommit: " + e.getMessage());
             }
@@ -99,9 +103,7 @@ public class ProductoDAO {
         // Consulta simplificada, ya no trae datos de inventario
         String sql = "SELECT * FROM productos ORDER BY id_producto ASC";
 
-        try (Connection conn = conexion.conectarBD(); 
-             PreparedStatement ps = conn.prepareStatement(sql); 
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = conexion.conectarBD(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Producto p = new Producto();
@@ -128,10 +130,10 @@ public class ProductoDAO {
             ps.setString(2, producto.getNombre());
             ps.setDouble(3, producto.getPrecio());
             ps.setInt(4, producto.getIdProducto());
-            
+
             ps.execute();
             return true;
-            
+
         } catch (Exception e) {
             System.err.println("Error al actualizar producto: " + e.getMessage());
             return false;
@@ -141,9 +143,9 @@ public class ProductoDAO {
     // 4. ELIMINAR PRODUCTO
     public boolean eliminar(int idProducto) {
         // Gracias a la restricción "ON DELETE CASCADE" en PostgreSQL, 
-        // solo necesitamos borrar el producto; la BD borrará su stock automáticamente.
+        // solo necesitamos borrar el producto; la BD borrará su stock aut omáticamente.
         String sql = "DELETE FROM productos WHERE id_producto=?";
-        
+
         try (Connection conn = conexion.conectarBD(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, idProducto);
             ps.execute();
