@@ -14,6 +14,29 @@ import java.util.List;
 public class UsuarioDAO {
 
     private ConexionBD conexion = new ConexionBD();
+    
+    public List<Usuario> buscarUsuarios(String valor) {
+        List<Usuario> lista = new ArrayList<>();
+        // ILIKE es exclusivo de PostgreSQL y hace que no importe si escriben con mayúsculas o minúsculas
+        String sql = "SELECT * FROM usuarios WHERE usuario ILIKE ?"; 
+        try {
+            Connection con = conexion.conectarBD();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, "%" + valor + "%"); // El % permite buscar coincidencias parciales
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Usuario u = new Usuario();
+                u.setIdUsuario(rs.getInt("id_usuario")); 
+                u.setUsuario(rs.getString("username"));
+                u.setRol(rs.getString("rol"));
+                // No traemos la contraseña por seguridad
+                lista.add(u);
+            }
+        } catch (Exception e) {
+            System.err.println("Error al buscar usuario: " + e.getMessage());
+        }
+        return lista;
+    }
 
     // 1. AUTENTICAR (Login)
     public Usuario autenticar(String user, String password) {

@@ -25,12 +25,12 @@ public class ProductoController implements ActionListener {
         this.dao = dao;
 
         // NOTA: Ya no ocultamos las pestañas aquí, eso lo hace el AdminController
-
         // Escuchar clics SOLO en los botones del CRUD de Productos
         this.vista.jBtnGuardar.addActionListener(this);
         this.vista.jBtnActualizar.addActionListener(this);
         this.vista.jBtnEliminar.addActionListener(this);
         this.vista.jBtnLimpiar.addActionListener(this);
+        this.vista.jBtnBuscarProducto.addActionListener(this);
 
         // Escuchar clics en la tabla
         this.vista.jTable1.addMouseListener(new MouseAdapter() {
@@ -45,8 +45,17 @@ public class ProductoController implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+
         // NOTA: Ya no hay navegación aquí, de eso se encarga el AdminController
+        //BOTON BUSACAR --
+        if (e.getSource() == vista.jBtnBuscarProducto) {
+            String textoBusqueda = vista.jTxtBuscarProducto.getText().trim();
+            if (textoBusqueda.isEmpty()) {
+
+                listar();
+            }
+            buscar(textoBusqueda);
+        }
 
         // --- BOTÓN GUARDAR ---
         if (e.getSource() == vista.jBtnGuardar) {
@@ -121,6 +130,28 @@ public class ProductoController implements ActionListener {
     // =======================================================
     // MÉTODO DE VALIDACIÓN (Sin Stock)
     // =======================================================
+    private void buscar(String texto) {
+        // 1. Llamamos al DAO y le pasamos el texto
+        List<Producto> lista = dao.buscarProductos(texto);
+
+        // 2. Preparamos la tabla
+        modeloTabla = (DefaultTableModel) vista.jTable1.getModel();
+        modeloTabla.setColumnIdentifiers(new Object[]{"ID", "Código", "Nombre", "Precio"});
+
+        limpiarTabla(); // Borramos lo que haya actualmente en la tabla
+
+        // 3. Llenamos la tabla con los resultados filtrados
+        Object[] ob = new Object[4];
+        for (int i = 0; i < lista.size(); i++) {
+            ob[0] = lista.get(i).getIdProducto();
+            ob[1] = lista.get(i).getCodigo();
+            ob[2] = lista.get(i).getNombre();
+            ob[3] = lista.get(i).getPrecio();
+            modeloTabla.addRow(ob);
+        }
+        vista.jTable1.setModel(modeloTabla);
+    }
+
     private boolean validarDatos() {
         if (vista.TxtCodigo.getText().trim().isEmpty()
                 || vista.jTxtNombre.getText().trim().isEmpty()

@@ -34,10 +34,11 @@ public class InventarioController implements ActionListener {
         // Escuchar clics en los botones exclusivos de la pestaña inventario
         this.vista.jBtnSumarStock.addActionListener(this);
         this.vista.jBtnLimpiarInv.addActionListener(this);
-
+        this.vista.jBtnBuscarInventario.addActionListener(this);
         // Bloquear edición manual de ID y Nombre por seguridad
         this.vista.jTxtIdProductoInv.setEditable(false);
         this.vista.jTxtNombreProductoInv.setEditable(false);
+        
 
         // Escuchar clics en la tabla
         this.vista.jTableInventario.addMouseListener(new MouseAdapter() {
@@ -54,6 +55,16 @@ public class InventarioController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         
         // NOTA: Ya no hay código de navegación aquí
+        
+                // --- BOTÓN BUSCAR ---
+        if (e.getSource() == vista.jBtnBuscarInventario) {
+            String textoBusqueda = vista.jTxtBuscarInventario.getText().trim();
+            if (textoBusqueda.isEmpty()) {
+                listar(); // Si está vacío, carga todo normal
+            } else {
+                buscar(textoBusqueda); // Si hay texto, filtra
+            }
+        }
 
         // --- BOTÓN SUMAR STOCK ---
         if (e.getSource() == vista.jBtnSumarStock) {
@@ -78,9 +89,35 @@ public class InventarioController implements ActionListener {
         }
     }
 
+    
+    
+    private void buscar(String texto) {
+        // 1. Llamamos al DAO y le pasamos el texto
+        List<Inventario> lista = dao.buscarInventario(texto);
+        
+        // 2. Preparamos la tabla
+        modeloTabla = (DefaultTableModel) vista.jTableInventario.getModel();
+        modeloTabla.setColumnIdentifiers(new Object[]{"ID Inv", "ID Prod", "Código", "Nombre", "Stock Actual", "Ubicación"});
+        
+        limpiarTabla(); // Borramos lo que haya actualmente en la tabla
+
+        // 3. Llenamos la tabla con los resultados filtrados
+        Object[] ob = new Object[6];
+        for (int i = 0; i < lista.size(); i++) {
+            ob[0] = lista.get(i).getIdInventario();
+            ob[1] = lista.get(i).getIdProducto();
+            ob[2] = lista.get(i).getCodigoProducto();
+            ob[3] = lista.get(i).getNombreProducto();
+            ob[4] = lista.get(i).getStockActual();
+            ob[5] = lista.get(i).getUbicacion();
+            modeloTabla.addRow(ob);
+        }
+        vista.jTableInventario.setModel(modeloTabla);
+    }
     // =======================================================
     // MÉTODO DE VALIDACIÓN
     // =======================================================
+    
     private boolean validarDatos() {
         if (vista.jTxtIdProductoInv.getText().trim().isEmpty() || vista.jTxtNombreProductoInv.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(vista, "Por favor, seleccione un producto de la tabla primero.", "Aviso", JOptionPane.WARNING_MESSAGE);

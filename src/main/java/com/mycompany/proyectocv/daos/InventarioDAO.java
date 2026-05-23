@@ -18,6 +18,31 @@ import java.util.List;
 public class InventarioDAO {
 
     private ConexionBD conexion = new ConexionBD();
+    
+    public List<Inventario> buscarInventario(String valor) {
+        List<Inventario> lista = new ArrayList<>();
+        // Asumiendo que haces un JOIN o que la vista de inventario tiene el nombre del producto
+        String sql = "SELECT * FROM inventario i INNER JOIN productos p ON i.id_producto = p.id_producto WHERE p.nombre ILIKE ?"; 
+        try {
+            Connection con = conexion.conectarBD();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, "%" + valor + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Inventario inv = new Inventario();
+                inv.setIdInventario(rs.getInt("id_inventario"));
+                inv.setIdProducto(rs.getInt("id_producto"));
+                inv.setCodigoProducto(rs.getString("codigo"));
+                inv.setNombreProducto(rs.getString("nombre"));
+                inv.setStockActual(rs.getInt("stock_actual"));
+                inv.setUbicacion(rs.getString("ubicacion"));
+                lista.add(inv);
+            }
+        } catch (Exception e) {
+            System.err.println("Error al buscar inventario: " + e.getMessage());
+        }
+        return lista;
+    }
 
     // 1. LISTAR INVENTARIO (Une inventario con productos para mostrar el código y nombre)
     public List<Inventario> listarInventario() {

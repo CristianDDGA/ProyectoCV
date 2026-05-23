@@ -15,6 +15,29 @@ public class ProductoDAO {
 
     private ConexionBD conexion = new ConexionBD();
 
+    
+    
+    public List<Producto> buscarProductos(String valor) {
+        List<Producto> lista = new ArrayList<>();
+        String sql = "SELECT * FROM productos WHERE nombre ILIKE ?"; 
+        try {
+            Connection con = conexion.conectarBD();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, "%" + valor + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Producto p = new Producto();
+                p.setIdProducto(rs.getInt("id_producto"));
+                p.setCodigo(rs.getString("codigo"));
+                p.setNombre(rs.getString("nombre"));
+                p.setPrecio(rs.getDouble("precio"));
+                lista.add(p);
+            }
+        } catch (Exception e) {
+            System.err.println("Error al buscar producto: " + e.getMessage());
+        }
+        return lista;
+    }
     // 1. REGISTRAR PRODUCTO E INVENTARIO (Transacción)
     public boolean registrar(Producto producto) {
         String sqlProducto = "INSERT INTO productos (codigo, nombre, precio) VALUES (?, ?, ?)";

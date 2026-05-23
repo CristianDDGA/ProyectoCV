@@ -48,12 +48,14 @@ public class LoginController implements ActionListener {
                         // 2. Instanciamos TODOS los DAOs que usa esa vista
                         ProductoDAO productoDao = new ProductoDAO();
                         InventarioDAO inventarioDao = new InventarioDAO();
+                        UsuarioDAO usuarioDaoAdmin = new UsuarioDAO();
 
                         // 3. ENLAZAMOS LA VISTA CON TODOS SUS CONTROLADORES
                         // *** AQUÍ ESTÁ LA CLAVE QUE FALTABA: Despertar al jefe de navegación ***
                         AdminController adminController = new AdminController(vistaAdmin);
                         ProductoController productoController = new ProductoController(vistaAdmin, productoDao);
                         InventarioController inventarioController = new InventarioController(vistaAdmin, inventarioDao);
+                        UsuarioController usuarioController = new UsuarioController(vistaAdmin, usuarioDaoAdmin);
 
                         // Ajustamos el tamaño para que quepa bien el menú lateral y la tabla
                         vistaAdmin.setSize(1200,700);
