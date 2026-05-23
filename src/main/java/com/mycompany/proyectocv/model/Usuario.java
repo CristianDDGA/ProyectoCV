@@ -12,11 +12,18 @@ public class Usuario {
 
     private int idUsuario;
     private String usuario;
-    private String contraseña;
+    private String contrasenia; // Evitamos la "ñ"
     private String rol; // "Administrador" o "Cajero"
     private boolean estado;
 
     public Usuario() {
+    }
+
+    public Usuario(String usuario, String contrasenia, String rol, boolean estado) {
+        this.usuario = usuario;
+        this.contrasenia = contrasenia;
+        this.rol = rol;
+        this.estado = estado;
     }
 
     public int getIdUsuario() {
@@ -35,12 +42,12 @@ public class Usuario {
         this.usuario = usuario;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getContrasenia() {
+        return contrasenia;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
     }
 
     public String getRol() {
@@ -58,5 +65,4 @@ public class Usuario {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
-
 }

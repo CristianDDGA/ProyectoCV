@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.proyectocv.daos;
 
 import com.mycompany.proyectocv.model.Producto;
@@ -19,29 +15,70 @@ public class ProductoDAO {
 
     private ConexionBD conexion = new ConexionBD();
 
-    // 1. REGISTRAR PRODUCTO
+    // 1. REGISTRAR PRODUCTO E INVENTARIO (Transacción)
     public boolean registrar(Producto producto) {
-        String sql = "INSERT INTO productos (codigo, nombre, precio, stock) VALUES (?, ?, ?, ?)";
-        try (Connection conn = conexion.conectarBD(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        String sqlProducto = "INSERT INTO productos (codigo, nombre, precio) VALUES (?, ?, ?)";
+        // Quemamos el número 0 en el SQL porque todo producto nuevo nace sin stock físico
+        String sqlInventario = "INSERT INTO inventario (id_producto, stock_actual) VALUES (?, 0)";
 
-            ps.setString(1, producto.getCodigo());
-            ps.setString(2, producto.getNombre());
-            ps.setDouble(3, producto.getPrecio());
-            ps.setInt(4, producto.getStock());
-            ps.execute();
+        Connection conn = null;
+
+        try {
+            conn = conexion.conectarBD();
+            // Apagamos el auto-commit para iniciar la transacción segura
+            conn.setAutoCommit(false); 
+
+            // 1er INSERT: Tabla productos (Pedimos que nos devuelva el ID generado)
+            PreparedStatement psProducto = conn.prepareStatement(sqlProducto, PreparedStatement.RETURN_GENERATED_KEYS);
+            psProducto.setString(1, producto.getCodigo());
+            psProducto.setString(2, producto.getNombre());
+            psProducto.setDouble(3, producto.getPrecio());
+            psProducto.executeUpdate();
+
+            // Obtenemos el ID que la base de datos le asignó al nuevo producto
+            ResultSet rs = psProducto.getGeneratedKeys();
+            int idNuevoProducto = 0;
+            if (rs.next()) {
+                idNuevoProducto = rs.getInt(1);
+            }
+
+            // 2do INSERT: Crear su espacio en inventario automáticamente con 0
+            PreparedStatement psInventario = conn.prepareStatement(sqlInventario);
+            psInventario.setInt(1, idNuevoProducto);
+            psInventario.executeUpdate();
+
+            // Si ambos Inserts fueron exitosos, confirmamos los cambios
+            conn.commit(); 
             return true;
+
         } catch (Exception e) {
+            // Si algo falla, deshacemos todo (Rollback) para no dejar datos a medias
+            try {
+                if (conn != null) conn.rollback(); 
+            } catch (Exception ex) {
+                System.err.println("Error en rollback: " + ex.getMessage());
+            }
             System.err.println("Error al registrar producto: " + e.getMessage());
             return false;
+        } finally {
+            // Restauramos el comportamiento normal de la conexión
+            try {
+                if (conn != null) conn.setAutoCommit(true);
+            } catch (Exception e) {
+                System.err.println("Error al restaurar autocommit: " + e.getMessage());
+            }
         }
     }
 
-    // 2. LISTAR PRODUCTOS
+    // 2. LISTAR PRODUCTOS (Solo Catálogo)
     public List<Producto> listarProductos() {
         List<Producto> lista = new ArrayList<>();
+        // Consulta simplificada, ya no trae datos de inventario
         String sql = "SELECT * FROM productos ORDER BY id_producto ASC";
 
-        try (Connection conn = conexion.conectarBD(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = conexion.conectarBD(); 
+             PreparedStatement ps = conn.prepareStatement(sql); 
+             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Producto p = new Producto();
@@ -49,7 +86,6 @@ public class ProductoDAO {
                 p.setCodigo(rs.getString("codigo"));
                 p.setNombre(rs.getString("nombre"));
                 p.setPrecio(rs.getDouble("precio"));
-                p.setStock(rs.getInt("stock"));
                 lista.add(p);
             }
         } catch (Exception e) {
@@ -58,18 +94,21 @@ public class ProductoDAO {
         return lista;
     }
 
-    // 3. EDITAR / ACTUALIZAR PRODUCTO
+    // 3. EDITAR / ACTUALIZAR PRODUCTO (Solo Catálogo, NO toca el inventario)
     public boolean actualizar(Producto producto) {
-        String sql = "UPDATE productos SET codigo=?, nombre=?, precio=?, stock=?, fecha_modificacion=CURRENT_TIMESTAMP WHERE id_producto=?";
-        try (Connection conn = conexion.conectarBD(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        // Solo actualizamos la tabla productos
+        String sql = "UPDATE productos SET codigo=?, nombre=?, precio=?, fecha_modificacion=CURRENT_TIMESTAMP WHERE id_producto=?";
 
+        // Usamos try-with-resources que es más limpio y cierra la conexión automáticamente
+        try (Connection conn = conexion.conectarBD(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, producto.getCodigo());
             ps.setString(2, producto.getNombre());
             ps.setDouble(3, producto.getPrecio());
-            ps.setInt(4, producto.getStock());
-            ps.setInt(5, producto.getIdProducto());
+            ps.setInt(4, producto.getIdProducto());
+            
             ps.execute();
             return true;
+            
         } catch (Exception e) {
             System.err.println("Error al actualizar producto: " + e.getMessage());
             return false;
@@ -78,9 +117,11 @@ public class ProductoDAO {
 
     // 4. ELIMINAR PRODUCTO
     public boolean eliminar(int idProducto) {
+        // Gracias a la restricción "ON DELETE CASCADE" en PostgreSQL, 
+        // solo necesitamos borrar el producto; la BD borrará su stock automáticamente.
         String sql = "DELETE FROM productos WHERE id_producto=?";
+        
         try (Connection conn = conexion.conectarBD(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
             ps.setInt(1, idProducto);
             ps.execute();
             return true;

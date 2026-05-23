@@ -3,9 +3,11 @@ package com.mycompany.proyectocv.controller;
 import com.mycompany.proyectocv.daos.UsuarioDAO;
 import com.mycompany.proyectocv.model.Usuario;
 import com.mycompany.proyectocv.daos.ProductoDAO;
+import com.mycompany.proyectocv.daos.InventarioDAO;
 import com.mycompany.proyectocv.views.VistaLogin;
-import com.mycompany.proyectocv.views.VistaProductos;
+import com.mycompany.proyectocv.views.VistaAdmin;
 import com.mycompany.proyectocv.views.VistaVentas;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
@@ -39,21 +41,29 @@ public class LoginController implements ActionListener {
 
                     // --- AQUÍ ESTÁ LA MAGIA DEL REDIRECCIONAMIENTO ---
                     if (u.getRol().equals("Administrador")) {
-                        
-                        // Si es Admin, abrimos el Dashboard principal (Gestor de Productos)
-                        VistaProductos productoView = new VistaProductos();
+
+                        // 1. Instanciamos la vista única del Administrador
+                        VistaAdmin vistaAdmin = new VistaAdmin();
+
+                        // 2. Instanciamos TODOS los DAOs que usa esa vista
                         ProductoDAO productoDao = new ProductoDAO();
-                        
-                        // ENLAZAMOS LA VISTA CON EL CONTROLADOR DE PRODUCTOS
-                        ProductoController productoController = new ProductoController(productoView, productoDao);
-                        
+                        InventarioDAO inventarioDao = new InventarioDAO();
+
+                        // 3. ENLAZAMOS LA VISTA CON TODOS SUS CONTROLADORES
+                        // *** AQUÍ ESTÁ LA CLAVE QUE FALTABA: Despertar al jefe de navegación ***
+                        AdminController adminController = new AdminController(vistaAdmin);
+                        ProductoController productoController = new ProductoController(vistaAdmin, productoDao);
+                        InventarioController inventarioController = new InventarioController(vistaAdmin, inventarioDao);
+
                         // Ajustamos el tamaño para que quepa bien el menú lateral y la tabla
-                        productoView.setSize(1000, 700); 
-                        productoView.setLocationRelativeTo(null);
-                        productoView.setVisible(true);
+                        vistaAdmin.setSize(1200,700);
+                        vistaAdmin.setLocationRelativeTo(null);
+                        vistaAdmin.setExtendedState(Frame.MAXIMIZED_BOTH);
                         
+                        vistaAdmin.setVisible(true);
+
                     } else if (u.getRol().equals("Cajero")) {
-                        
+
                         // Si es Cajero, abrimos el Punto de Venta
                         VistaVentas ventaView = new VistaVentas();
                         ventaView.setLocationRelativeTo(null);
@@ -61,7 +71,7 @@ public class LoginController implements ActionListener {
                     }
 
                     vista.dispose(); // Cerramos el login
-                    
+
                 } else {
                     JOptionPane.showMessageDialog(vista, "Credenciales incorrectas o el usuario está inactivo.");
                 }
