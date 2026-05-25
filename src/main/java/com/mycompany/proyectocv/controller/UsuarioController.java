@@ -38,6 +38,7 @@ public class UsuarioController implements ActionListener {
         this.vista.jBtnEliminarUser.addActionListener(this);
         this.vista.jBtnLimpiarUser.addActionListener(this);
         this.vista.jBtnBuscarUsuario.addActionListener(this);
+        this.vista.jBtnRefrescarUsuario.addActionListener(this);
 
         // Escuchar clics en la tabla de usuarios
         this.vista.jTblUsuario.addMouseListener(new MouseAdapter() {
@@ -61,6 +62,13 @@ public class UsuarioController implements ActionListener {
             } else {
                 buscar(textoBusqueda); // Si hay texto, filtra
             }
+        }
+        
+                // --- BOTÓN REFRESCAR / MOSTRAR TODOS ---
+        if (e.getSource() == vista.jBtnRefrescarUsuario) {
+            vista.jTxtBuscarInventario.setText(""); // Limpiamos la cajita de búsqueda
+            listar(); // Traemos toda la tabla de nuevo
+            limpiarCampos(); // Deseleccionamos cualquier cosa que estuviera marcada
         }
 
         // --- BOTÓN GUARDAR ---

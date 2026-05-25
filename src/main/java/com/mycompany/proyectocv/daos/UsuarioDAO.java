@@ -27,7 +27,7 @@ public class UsuarioDAO {
             while (rs.next()) {
                 Usuario u = new Usuario();
                 u.setIdUsuario(rs.getInt("id_usuario")); 
-                u.setUsuario(rs.getString("username"));
+                u.setUsuario(rs.getString("usuario"));
                 u.setRol(rs.getString("rol"));
                 // No traemos la contraseña por seguridad
                 lista.add(u);
