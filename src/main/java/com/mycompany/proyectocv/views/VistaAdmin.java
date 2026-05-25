@@ -175,11 +175,11 @@ public class VistaAdmin extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(75, 75, 75)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jBtnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jBtnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jBtnActualizar)
-                            .addComponent(jBtnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jBtnActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jBtnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jBtnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jBtnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -247,6 +247,7 @@ public class VistaAdmin extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Productos", jPanel2);
 
+        jPanel3.setBackground(new java.awt.Color(204, 255, 255));
         jPanel3.setPreferredSize(new java.awt.Dimension(1100, 395));
 
         jLabel8.setBackground(new java.awt.Color(255, 255, 255));
@@ -369,6 +370,8 @@ public class VistaAdmin extends javax.swing.JFrame {
         jTabbedPane1.addTab("Inventario", jPanel3);
         jPanel3.getAccessibleContext().setAccessibleParent(jTabbedPane1);
 
+        jPanel4.setBackground(new java.awt.Color(204, 255, 255));
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -381,6 +384,8 @@ public class VistaAdmin extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Reportes", jPanel4);
+
+        jPanel5.setBackground(new java.awt.Color(204, 255, 255));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
         jLabel10.setText("Nombre Usuario");
