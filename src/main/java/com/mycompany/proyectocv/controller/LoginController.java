@@ -57,6 +57,8 @@ public class LoginController implements ActionListener {
                         ProductoController productoController = new ProductoController(vistaAdmin, productoDao);
                         InventarioController inventarioController = new InventarioController(vistaAdmin, inventarioDao);
                         UsuarioController usuarioController = new UsuarioController(vistaAdmin, usuarioDaoAdmin);
+                        
+                        ReporteController reporteController = new ReporteController(vistaAdmin);
 
                         // Ajustamos el tamaño para que quepa bien el menú lateral y la tabla
                         vistaAdmin.setSize(1200,700);

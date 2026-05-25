@@ -30,18 +30,17 @@ public class InventarioController implements ActionListener {
         this.dao = dao;
 
         // NOTA: La navegación (jBtnInventario) ya la maneja el AdminController
-
         // Escuchar clics en los botones exclusivos de la pestaña inventario
         this.vista.jBtnSumarStock.addActionListener(this);
         this.vista.jBtnLimpiarInv.addActionListener(this);
         this.vista.jBtnBuscarInventario.addActionListener(this);
-        
+        this.vista.jBtnRefrescarInventario.addActionListener(this);
+
         this.vista.jBtnInventario.addActionListener(this);
         this.vista.jBtnSumarStock.addActionListener(this);
         // Bloquear edición manual de ID y Nombre por seguridad
         this.vista.jTxtIdProductoInv.setEditable(false);
         this.vista.jTxtNombreProductoInv.setEditable(false);
-        
 
         // Escuchar clics en la tabla
         this.vista.jTableInventario.addMouseListener(new MouseAdapter() {
@@ -54,12 +53,12 @@ public class InventarioController implements ActionListener {
         listar(); // Llenar la tabla al iniciar
     }
 
-  @Override
+    @Override
     public void actionPerformed(ActionEvent e) {
-        
+
         // --- REFRESCO AUTOMÁTICO AL CAMBIAR DE PESTAÑA ---
         if (e.getSource() == vista.jBtnInventario) {
-            listar(); 
+            listar();
             limpiarCampos();
         }
 
@@ -71,6 +70,13 @@ public class InventarioController implements ActionListener {
             } else {
                 buscar(textoBusqueda); // Si hay texto, filtra
             }
+        }
+
+        // --- BOTÓN REFRESCAR / MOSTRAR TODOS ---
+        if (e.getSource() == vista.jBtnRefrescarInventario) {
+            vista.jTxtBuscarInventario.setText(""); // Limpiamos la cajita de búsqueda
+            listar(); // Traemos toda la tabla de nuevo
+            limpiarCampos(); // Deseleccionamos cualquier cosa que estuviera marcada
         }
 
         // --- BOTÓN SUMAR STOCK ---
@@ -96,16 +102,14 @@ public class InventarioController implements ActionListener {
         }
     }
 
-    
-    
     private void buscar(String texto) {
         // 1. Llamamos al DAO y le pasamos el texto
         List<Inventario> lista = dao.buscarInventario(texto);
-        
+
         // 2. Preparamos la tabla
         modeloTabla = (DefaultTableModel) vista.jTableInventario.getModel();
         modeloTabla.setColumnIdentifiers(new Object[]{"ID Inv", "ID Prod", "Código", "Nombre", "Stock Actual", "Ubicación"});
-        
+
         limpiarTabla(); // Borramos lo que haya actualmente en la tabla
 
         // 3. Llenamos la tabla con los resultados filtrados
@@ -124,7 +128,7 @@ public class InventarioController implements ActionListener {
     // =======================================================
     // MÉTODO DE VALIDACIÓN
     // =======================================================
-    
+
     private boolean validarDatos() {
         if (vista.jTxtIdProductoInv.getText().trim().isEmpty() || vista.jTxtNombreProductoInv.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(vista, "Por favor, seleccione un producto de la tabla primero.", "Aviso", JOptionPane.WARNING_MESSAGE);
@@ -169,7 +173,7 @@ public class InventarioController implements ActionListener {
             modeloTabla.addRow(ob);
         }
         vista.jTableInventario.setModel(modeloTabla);
-        
+
         // Ajuste de tamaño de columnas para que se vea bien
         if (vista.jTableInventario.getColumnModel().getColumnCount() > 0) {
             vista.jTableInventario.getColumnModel().getColumn(0).setPreferredWidth(50);
@@ -188,16 +192,16 @@ public class InventarioController implements ActionListener {
         } else {
             try {
                 if (vista.jTableInventario.getValueAt(fila, 1) == null) {
-                    return; 
+                    return;
                 }
 
                 // Carga ID del Producto (Columna 1) y Nombre (Columna 3)
                 vista.jTxtIdProductoInv.setText(vista.jTableInventario.getValueAt(fila, 1).toString());
                 vista.jTxtNombreProductoInv.setText(vista.jTableInventario.getValueAt(fila, 3).toString());
-                
+
                 vista.jTxtCantidadSumar.setText("");
                 vista.jTxtCantidadSumar.requestFocus();
-                
+
             } catch (Exception e) {
                 System.err.println("Error al leer la fila seleccionada: " + e.getMessage());
             }

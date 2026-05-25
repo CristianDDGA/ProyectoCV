@@ -31,6 +31,7 @@ public class ProductoController implements ActionListener {
         this.vista.jBtnEliminar.addActionListener(this);
         this.vista.jBtnLimpiar.addActionListener(this);
         this.vista.jBtnBuscarProducto.addActionListener(this);
+        this.vista.jBtnRefrescarProducto.addActionListener(this);
 
         // Escuchar clics en la tabla
         this.vista.jTable1.addMouseListener(new MouseAdapter() {
@@ -56,6 +57,13 @@ public class ProductoController implements ActionListener {
             }else{
             buscar(textoBusqueda);
             }
+        }
+        
+        // --- BOTÓN REFRESCAR / MOSTRAR TODOS ---
+        if (e.getSource() == vista.jBtnRefrescarProducto) {
+            vista.jTxtBuscarProducto.setText(""); // Limpiamos la cajita de búsqueda
+            listar(); // Traemos toda la tabla de nuevo
+            limpiarCampos(); // Deseleccionamos cualquier cosa que estuviera marcada
         }
 
         // --- BOTÓN GUARDAR ---
