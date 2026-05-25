@@ -28,7 +28,7 @@
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="jLabel2" pref="1220" max="32767" attributes="0"/>
+                      <Component id="jLabel2" pref="1206" max="32767" attributes="0"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
@@ -71,7 +71,6 @@
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jBtnInventario" max="32767" attributes="0"/>
                       <Component id="jBtnProductos" max="32767" attributes="0"/>
-                      <Component id="jBtnReport" alignment="0" max="32767" attributes="0"/>
                       <Component id="jBtnUser" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace pref="53" max="32767" attributes="0"/>
@@ -84,11 +83,9 @@
                   <EmptySpace min="-2" pref="222" max="-2" attributes="0"/>
                   <Component id="jBtnProductos" min="-2" pref="43" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jBtnInventario" min="-2" pref="43" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jBtnReport" min="-2" pref="43" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jBtnUser" min="-2" pref="43" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="jBtnInventario" min="-2" pref="43" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -97,15 +94,7 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="jBtnProductos">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Productos"/>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-          </AuxValues>
-        </Component>
-        <Component class="javax.swing.JButton" name="jBtnReport">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Reportes"/>
+            <Property name="text" type="java.lang.String" value="Nueva Venta"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
@@ -113,7 +102,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="jBtnUser">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Usuarios"/>
+            <Property name="text" type="java.lang.String" value="Clientes"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
@@ -121,7 +110,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="jBtnInventario">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Inventario"/>
+            <Property name="text" type="java.lang.String" value="Historial"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
