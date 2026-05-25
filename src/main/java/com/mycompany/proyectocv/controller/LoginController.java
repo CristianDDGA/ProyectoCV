@@ -6,6 +6,7 @@ import com.mycompany.proyectocv.daos.ProductoDAO;
 import com.mycompany.proyectocv.daos.InventarioDAO;
 import com.mycompany.proyectocv.views.VistaLogin;
 import com.mycompany.proyectocv.views.VistaAdmin;
+import com.mycompany.proyectocv.views.VistaCajero;
 import com.mycompany.proyectocv.views.VistaVentas;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -67,9 +68,9 @@ public class LoginController implements ActionListener {
                     } else if (u.getRol().equals("Cajero")) {
 
                         // Si es Cajero, abrimos el Punto de Venta
-                        VistaVentas ventaView = new VistaVentas();
-                        ventaView.setLocationRelativeTo(null);
-                        ventaView.setVisible(true);
+                        VistaCajero vistaCajero= new VistaCajero();
+                        vistaCajero.setLocationRelativeTo(null);
+                        vistaCajero.setVisible(true);
                     }
 
                     vista.dispose(); // Cerramos el login
