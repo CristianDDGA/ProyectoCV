@@ -4,6 +4,7 @@ import com.mycompany.proyectocv.daos.ConexionBD;
 import com.mycompany.proyectocv.views.VistaAdmin;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
@@ -95,6 +96,11 @@ public class ReporteController implements ActionListener {
                 parametros.put("Param_Cajero", cajeroBuscado);
             }
 
+            InputStream logoStream = getClass().getResourceAsStream("/UTA-STORE.png");
+            if (logoStream != null) {
+                parametros.put("Param_Logo", logoStream);
+            }
+
             String rutaReporte = "src/main/java/com/mycompany/proyectocv/reportes/ReporteVentas.jrxml";
 
             JasperReport reporte = JasperCompileManager.compileReport(rutaReporte);
@@ -111,23 +117,28 @@ public class ReporteController implements ActionListener {
     }
 
     private void generarReporteVentas() {
-    try {
-        String fechaI = vista.jTxtFechaInicio.getText().trim();
-        String fechaF = vista.jTxtFechaFin.getText().trim();
+        try {
+            String fechaI = vista.jTxtFechaInicio.getText().trim();
+            String fechaF = vista.jTxtFechaFin.getText().trim();
 
-        Map<String, Object> parametros = new HashMap<>();
-        // Enviamos el String directo, sin convertir a Date en Java
-        parametros.put("Param_FechaInicio", fechaI); 
-        parametros.put("Param_FechaFin", fechaF);
+            Map<String, Object> parametros = new HashMap<>();
+            // Enviamos el String directo, sin convertir a Date en Java
+            parametros.put("Param_FechaInicio", fechaI);
+            parametros.put("Param_FechaFin", fechaF);
 
-        String ruta = "src/main/java/com/mycompany/proyectocv/reportes/ReporteVentasGeneral.jrxml";
-        JasperReport reporte = JasperCompileManager.compileReport(ruta);
-        Connection con = conexion.conectarBD();
-        JasperPrint print = JasperFillManager.fillReport(reporte, parametros, con);
-        
-        JasperViewer.viewReport(print, false);
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
+            InputStream logoStream = getClass().getResourceAsStream("/UTA-STORE.png");
+            if (logoStream != null) {
+                parametros.put("Param_Logo", logoStream);
+            }
+
+            String ruta = "src/main/java/com/mycompany/proyectocv/reportes/ReporteVentasGeneral.jrxml";
+            JasperReport reporte = JasperCompileManager.compileReport(ruta);
+            Connection con = conexion.conectarBD();
+            JasperPrint print = JasperFillManager.fillReport(reporte, parametros, con);
+
+            JasperViewer.viewReport(print, false);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
+        }
     }
-}
 }

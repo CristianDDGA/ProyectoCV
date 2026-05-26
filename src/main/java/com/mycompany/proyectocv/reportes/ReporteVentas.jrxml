@@ -2,10 +2,11 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a3434168-7d4d-4e94-ad74-1f570b369b80">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="223"/>
+	<property name="ireport.y" value="127"/>
 	<parameter name="Param_FechaFin" class="java.util.Date"/>
 	<parameter name="Param_FechaInicio" class="java.util.Date"/>
 	<parameter name="Param_Cajero" class="java.lang.String"/>
+	<parameter name="Param_Logo" class="java.io.InputStream"/>
 	<queryString>
 		<![CDATA[SELECT f.numero_factura, f.fecha, u.usuario AS cajero, f.total
 FROM facturas f
@@ -100,13 +101,13 @@ ORDER BY f.fecha DESC]]>
 				</textElement>
 				<text><![CDATA[REPORTES DE VENTAS ]]></text>
 			</staticText>
-			<image hAlign="Center">
-				<reportElement x="379" y="5" width="115" height="68" uuid="d6715c11-846e-46e9-a6ae-ceb30c91c4c3"/>
-				<imageExpression><![CDATA["C:\\Users\\Lenovo\\Documents\\NetBeansProjects\\ProyectoCV\\src\\main\\resources\\UTA-STORE.png"]]></imageExpression>
-			</image>
 			<line>
 				<reportElement x="1" y="79" width="554" height="1" uuid="ae751948-6af7-42a8-bb5a-5610f47f2a1f"/>
 			</line>
+			<image>
+				<reportElement x="405" y="0" width="112" height="79" uuid="c4d3037a-24be-4c01-bdf9-39f5c8ee823c"/>
+				<imageExpression><![CDATA[$P{Param_Logo}]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
@@ -123,7 +124,7 @@ ORDER BY f.fecha DESC]]>
 	<detail>
 		<band height="86" splitType="Stretch">
 			<rectangle>
-				<reportElement x="0" y="0" width="555" height="86" uuid="fe609794-227d-4380-9f90-f645f3744530"/>
+				<reportElement x="1" y="0" width="555" height="86" uuid="fe609794-227d-4380-9f90-f645f3744530"/>
 			</rectangle>
 			<textField>
 				<reportElement mode="Opaque" x="26" y="19" width="100" height="20" uuid="8ad189aa-fc99-45b3-933c-6898f8005aa5"/>

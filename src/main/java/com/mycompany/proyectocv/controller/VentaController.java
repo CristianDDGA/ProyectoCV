@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -742,6 +743,12 @@ public class VentaController implements ActionListener {
         try {
             Map<String, Object> parametros = new HashMap<>();
             parametros.put("Param_NumeroFactura", numeroFactura);
+            InputStream logoStream = getClass().getResourceAsStream("/UTA-STORE.png");
+            if (logoStream == null) {
+                System.out.println("No se encontró la imagen del logo en la ruta especificada.");
+            } else {
+                parametros.put("Param_Logo", logoStream);
+            }
 
             // Ajusta esta ruta a donde esté tu archivo .jrxml
             String rutaReporte = "src/main/java/com/mycompany/proyectocv/reportes/Factura.jrxml";

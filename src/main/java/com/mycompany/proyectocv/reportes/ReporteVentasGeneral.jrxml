@@ -2,9 +2,10 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="67e89b30-6892-4e94-b702-78b121f2fc67">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="158"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="Param_FechaInicio" class="java.lang.String"/>
 	<parameter name="Param_FechaFin" class="java.lang.String"/>
+	<parameter name="Param_Logo" class="java.io.InputStream"/>
 	<queryString>
 		<![CDATA[SELECT f.numero_factura, f.fecha, u.usuario AS cajero, f.total
 FROM facturas f
@@ -31,13 +32,13 @@ ORDER BY f.fecha DESC]]>
 				</textElement>
 				<text><![CDATA[  REPORTE GENERAL  DE VENTAS]]></text>
 			</staticText>
-			<image>
-				<reportElement x="436" y="-2" width="151" height="88" uuid="a866969f-39cb-465e-af9a-8ce1d191b574"/>
-				<imageExpression><![CDATA["C:\\Users\\Lenovo\\Documents\\NetBeansProjects\\ProyectoCV\\src\\main\\resources\\UTA-STORE.png"]]></imageExpression>
-			</image>
 			<line>
 				<reportElement x="2" y="86" width="553" height="2" uuid="7a8c2105-c2e3-4653-8e8b-0cdcb38cfddf"/>
 			</line>
+			<image>
+				<reportElement x="455" y="6" width="100" height="82" uuid="85fa738c-0aa2-4c75-8ee2-67d45719e6ad"/>
+				<imageExpression><![CDATA[$P{Param_Logo}]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
