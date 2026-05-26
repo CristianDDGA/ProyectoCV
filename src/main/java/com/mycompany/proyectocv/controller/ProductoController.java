@@ -4,10 +4,14 @@ import com.mycompany.proyectocv.daos.ProductoDAO;
 import com.mycompany.proyectocv.model.Producto;
 import com.mycompany.proyectocv.utils.GeneradorCodigoBarras;
 import com.mycompany.proyectocv.utils.VisorCodigoBarras;
+import com.mycompany.proyectocv.utils.ProductoLookup;
+import com.mycompany.proyectocv.utils.BarcodeLookupService;
 import com.mycompany.proyectocv.views.VistaAdmin;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -46,6 +50,18 @@ public class ProductoController implements ActionListener {
 
         listar(); // Llenar la tabla al iniciar
         generarYCargarCodigo(); // Generar código automáticamente al abrir
+
+        // --- ESCÁNER DE CÓDIGO DE BARRAS ---
+        this.vista.jBtnEscanearCodigo.addActionListener(this);
+        this.vista.jTxtEscanerAdmin.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    procesarEscaneo();
+                }
+            }
+        });
+        vista.jTxtEscanerAdmin.setVisible(false); // empieza oculto
     }
 
     private void generarYCargarCodigo() {
@@ -74,6 +90,11 @@ public class ProductoController implements ActionListener {
             vista.jTxtBuscarProducto.setText(""); // Limpiamos la cajita de búsqueda
             listar(); // Traemos toda la tabla de nuevo
             limpiarCampos(); // Deseleccionamos cualquier cosa que estuviera marcada
+        }
+
+        // --- BOTÓN ESCANEAR CÓDIGO ---
+        if (e.getSource() == vista.jBtnEscanearCodigo) {
+            activarModoEscaner();
         }
 
         // --- BOTÓN GUARDAR ---
@@ -277,5 +298,48 @@ public class ProductoController implements ActionListener {
     public String generarCodigoBarras() {
         String nuevoCodigo = GeneradorCodigoBarras.generarCodigoUnico();
         return nuevoCodigo;
+    }
+
+    // =======================================================
+    // ESCÁNER DE CÓDIGO DE BARRAS (Open Food Facts)
+    // =======================================================
+
+    public void activarModoEscaner() {
+        vista.jBtnEscanearCodigo.setVisible(false);
+        vista.jTxtEscanerAdmin.setVisible(true);
+        vista.jTxtEscanerAdmin.requestFocusInWindow();
+    }
+
+    private void salirModoEscaner() {
+        vista.jTxtEscanerAdmin.setText("");
+        vista.jTxtEscanerAdmin.setVisible(false);
+        vista.jBtnEscanearCodigo.setVisible(true);
+    }
+
+    private void procesarEscaneo() {
+        String codigo = vista.jTxtEscanerAdmin.getText().trim();
+        if (codigo.isEmpty()) {
+            salirModoEscaner();
+            return;
+        }
+
+        ProductoLookup lookup = BarcodeLookupService.buscar(codigo);
+
+        if (lookup.isEncontrado()) {
+            vista.TxtCodigo.setText(codigo);
+            vista.jTxtNombre.setText(lookup.getNombre());
+            salirModoEscaner();
+            vista.jTxtPrecio.requestFocusInWindow();
+            JOptionPane.showMessageDialog(vista,
+                    "Producto encontrado: " + lookup.getNombre(),
+                    "Escaneo Exitoso", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            vista.TxtCodigo.setText(codigo);
+            salirModoEscaner();
+            vista.jTxtNombre.requestFocusInWindow();
+            JOptionPane.showMessageDialog(vista,
+                    "Código " + codigo + " no encontrado.\nComplete los datos manualmente.",
+                    "No Encontrado", JOptionPane.WARNING_MESSAGE);
+        }
     }
 }
