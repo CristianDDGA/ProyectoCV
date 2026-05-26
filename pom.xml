@@ -45,6 +45,19 @@
             <artifactId>groovy-all</artifactId>
             <version>2.4.21</version>
         </dependency>
+        
+        <!-- ZXing para códigos de barras -->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.5.3</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>3.5.3</version>
+        </dependency>
     </dependencies>
     
 
