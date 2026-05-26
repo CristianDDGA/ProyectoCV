@@ -47,6 +47,7 @@
                       <Component id="jBtnHistorial" max="32767" attributes="0"/>
                       <Component id="jBtnNuevaVenta" max="32767" attributes="0"/>
                       <Component id="jBtnClientes" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jBtnCerrarSesion" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace pref="53" max="32767" attributes="0"/>
               </Group>
@@ -61,7 +62,9 @@
                   <Component id="jBtnClientes" min="-2" pref="43" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jBtnHistorial" min="-2" pref="43" max="-2" attributes="0"/>
-                  <EmptySpace pref="493" max="32767" attributes="0"/>
+                  <EmptySpace pref="237" max="32767" attributes="0"/>
+                  <Component id="jBtnCerrarSesion" min="-2" pref="42" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="214" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -90,6 +93,17 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
           </AuxValues>
+        </Component>
+        <Component class="javax.swing.JButton" name="jBtnCerrarSesion">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="cc" type="rgb"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="0" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Cerrar Sesi&#xf3;n"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -224,7 +238,7 @@
                                               <Component id="jTxtTipoId" min="-2" pref="80" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" alignment="0" attributes="0">
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="jTxtNombreCliente" min="-2" pref="379" max="-2" attributes="0"/>
@@ -242,8 +256,6 @@
                                               <Component id="jBtnBuscarCliente" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace type="separate" max="-2" attributes="0"/>
                                               <Component id="jBtnCrearCliente" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="32767" attributes="0"/>
-                                              <Component id="jButton3" min="-2" pref="207" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -263,7 +275,6 @@
                                   <Component id="jTxtNumeroId" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jBtnBuscarCliente" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jBtnCrearCliente" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -353,14 +364,6 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Direcci&#xf3;n:"/>
                       </Properties>
-                    </Component>
-                    <Component class="javax.swing.JButton" name="jButton3">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Consumidor Final"/>
-                      </Properties>
-                      <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-                      </AuxValues>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel6">
                       <Properties>

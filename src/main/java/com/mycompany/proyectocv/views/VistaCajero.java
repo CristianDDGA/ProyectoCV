@@ -30,6 +30,7 @@ public class VistaCajero extends javax.swing.JFrame {
         jBtnNuevaVenta = new javax.swing.JButton();
         jBtnClientes = new javax.swing.JButton();
         jBtnHistorial = new javax.swing.JButton();
+        jBtnCerrarSesion = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -45,7 +46,6 @@ public class VistaCajero extends javax.swing.JFrame {
         jTxtNombreCliente = new javax.swing.JTextField();
         jtxtDireccion = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jTxtCorreo = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
@@ -126,6 +126,10 @@ public class VistaCajero extends javax.swing.JFrame {
 
         jBtnHistorial.setText("Historial");
 
+        jBtnCerrarSesion.setBackground(new java.awt.Color(204, 255, 255));
+        jBtnCerrarSesion.setForeground(new java.awt.Color(0, 0, 0));
+        jBtnCerrarSesion.setText("Cerrar Sesión");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -135,7 +139,8 @@ public class VistaCajero extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jBtnHistorial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jBtnNuevaVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBtnClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jBtnClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jBtnCerrarSesion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -147,7 +152,9 @@ public class VistaCajero extends javax.swing.JFrame {
                 .addComponent(jBtnClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jBtnHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(493, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 237, Short.MAX_VALUE)
+                .addComponent(jBtnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(214, 214, 214))
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 880));
@@ -188,8 +195,6 @@ public class VistaCajero extends javax.swing.JFrame {
 
         jLabel16.setText("Dirección:");
 
-        jButton3.setText("Consumidor Final");
-
         jLabel6.setText("Correo Electrónico:");
 
         jTxtCorreo.setEditable(false);
@@ -212,7 +217,7 @@ public class VistaCajero extends javax.swing.JFrame {
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTxtTipoId, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTxtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -228,9 +233,7 @@ public class VistaCajero extends javax.swing.JFrame {
                                 .addGap(26, 26, 26)
                                 .addComponent(jBtnBuscarCliente)
                                 .addGap(18, 18, 18)
-                                .addComponent(jBtnCrearCliente)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jBtnCrearCliente)))))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -243,8 +246,7 @@ public class VistaCajero extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jTxtNumeroId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBtnBuscarCliente)
-                    .addComponent(jBtnCrearCliente)
-                    .addComponent(jButton3))
+                    .addComponent(jBtnCrearCliente))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
@@ -869,20 +871,20 @@ public class VistaCajero extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton jBtnBuscarCliente;
+    private javax.swing.JButton jBtnCerrarSesion;
     public javax.swing.JButton jBtnClientes;
     public javax.swing.JButton jBtnCrearCliente;
     public javax.swing.JButton jBtnGenerarFactura;
     public javax.swing.JButton jBtnHistorial;
+    public javax.swing.JButton jBtnMas;
+    public javax.swing.JButton jBtnMenos;
     public javax.swing.JButton jBtnNuevaVenta;
     public javax.swing.JButton jBtnSeleccionarBuscar;
     public javax.swing.JButton jBtnSeleccionarCrear;
     public javax.swing.JButton jBtnSeleccionarProducto;
+    public javax.swing.JButton jBtnVerClientes;
     public javax.swing.JButton jButton1;
     public javax.swing.JButton jButton2;
-    public javax.swing.JButton jButton3;
-    public javax.swing.JButton jBtnVerClientes;
-    public javax.swing.JButton jBtnMas;
-    public javax.swing.JButton jBtnMenos;
     public javax.swing.JComboBox<String> jCbxTipoId;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;

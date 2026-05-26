@@ -99,7 +99,7 @@ public class VentaController implements ActionListener {
         this.vista.jBtnBuscarCliente.addActionListener(this);
         this.vista.jBtnSeleccionarBuscar.addActionListener(this);
         this.vista.jBtnCrearCliente.addActionListener(this);
-        this.vista.jButton3.addActionListener(this); // Consumidor Final
+        this.vista.jBtnConsumidorFInal.addActionListener(this); // Consumidor Final
 
         // Enlazar botón Generar Factura
         this.vista.jBtnGenerarFactura.addActionListener(this);
@@ -532,7 +532,7 @@ public class VentaController implements ActionListener {
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(vista, "Por favor ingrese un número entero válido para la cantidad.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
             }
-        } else if (e.getSource() == vista.jButton3) {
+        } else if (e.getSource() == vista.jBtnConsumidorFInal) {
             // Consumidor Final
             clienteSeleccionado = null;
             vista.jTxtTipoId.setText("Consumidor Final");
