@@ -87,4 +87,20 @@ public class InventarioDAO {
             return false;
         }
     }
+
+    public int obtenerStockPorCodigo(String codigo) {
+        String sql = "SELECT i.stock_actual FROM inventario i INNER JOIN productos p ON i.id_producto = p.id_producto WHERE p.codigo = ?";
+        try (Connection conn = conexion.conectarBD();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, codigo);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("stock_actual");
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error al obtener stock por código: " + e.getMessage());
+        }
+        return 0;
+    }
 }

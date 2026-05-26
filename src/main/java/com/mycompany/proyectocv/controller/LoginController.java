@@ -77,7 +77,8 @@ public class LoginController implements ActionListener {
                         // Instanciamos los DAOs y el controlador para el Cajero
                         ClienteDAO clienteDao = new ClienteDAO();
                         FacturaDAO facturaDao = new FacturaDAO();
-                        VentaController ventaController = new VentaController(vistaCajero, clienteDao, facturaDao);
+                        ProductoDAO productoDao = new ProductoDAO();
+                        VentaController ventaController = new VentaController(vistaCajero, clienteDao, facturaDao, productoDao, u);
 
                         vistaCajero.setLocationRelativeTo(null);
                         vistaCajero.setVisible(true);
