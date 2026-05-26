@@ -334,24 +334,38 @@ public class ProductoController implements ActionListener {
 
         // Poner el código escaneado en TxtCodigo INMEDIATAMENTE
         vista.TxtCodigo.setText(codigo);
+        vista.jTxtEscanerAdmin.setText(""); // Limpiar para próximo escaneo
 
-        // Buscar producto en Open Food Facts
+        // 1. Verificar si el producto YA EXISTE en la base de datos local
+        Producto existente = dao.buscarPorCodigo(codigo);
+        if (existente != null) {
+            // Ya existe — cargar sus datos para editar
+            vista.TxtCodigo.setText(existente.getCodigo());
+            vista.jTxtNombre.setText(existente.getNombre());
+            vista.jTxtPrecio.setText(String.valueOf(existente.getPrecio()));
+            vista.jTxtPrecio.requestFocusInWindow();
+            JOptionPane.showMessageDialog(vista,
+                    "El producto ya está registrado:\n" + existente.getNombre() + "\n\nSe cargaron sus datos para editar.",
+                    "Producto Existente", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        // 2. No existe en BD local — buscar en Open Food Facts
         ProductoLookup lookup = BarcodeLookupService.buscar(codigo);
 
         if (lookup.isEncontrado()) {
             vista.jTxtNombre.setText(lookup.getNombre());
-            vista.jTxtEscanerAdmin.setText(""); // Limpiar para próximo escaneo
             vista.jTxtPrecio.requestFocusInWindow();
             JOptionPane.showMessageDialog(vista,
-                    "Producto encontrado: " + lookup.getNombre(),
+                    "Producto encontrado en Open Food Facts: " + lookup.getNombre(),
                     "Escaneo Exitoso", JOptionPane.INFORMATION_MESSAGE);
         } else {
             vista.jTxtNombre.setText("");
             vista.jTxtNombre.requestFocusInWindow();
-            vista.jTxtEscanerAdmin.setText(""); // Limpiar para próximo escaneo
             JOptionPane.showMessageDialog(vista,
-                    "Código " + codigo + " no encontrado.\nComplete los datos manualmente.",
-                    "No Encontrado", JOptionPane.WARNING_MESSAGE);
+                    "Código " + codigo + " no encontrado.\n"
+                    + "Es un producto nuevo — complete los datos y presione Guardar.",
+                    "Producto Nuevo", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }

@@ -224,7 +224,11 @@ public class VentaController implements ActionListener {
         Producto producto = productoDao.buscarPorCodigo(codigo);
 
         if (producto == null) {
-            JOptionPane.showMessageDialog(vista, "Producto no encontrado: " + codigo, "Error de Escaneo", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(vista,
+                    "Código " + codigo + " no está registrado en el sistema.\n\n"
+                    + "Debe agregar el producto desde el panel de Administración\n"
+                    + "antes de poder venderlo en el cajero.",
+                    "Producto No Registrado", JOptionPane.WARNING_MESSAGE);
             resetearModoEscaner();
             return;
         }
