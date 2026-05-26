@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9f0f9cfb-a580-4435-a14f-83bd20e77902">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="96"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="Param_NumeroFactura" class="java.lang.String"/>
 	<parameter name="Param_Logo" class="java.io.InputStream"/>
 	<queryString>
@@ -74,7 +74,7 @@ WHERE f.numero_factura = $P{Param_NumeroFactura}]]>
 			</line>
 			<image>
 				<reportElement x="408" y="12" width="172" height="115" uuid="9a15df22-03f2-44c0-be7d-06a50963521d"/>
-				<imageExpression><![CDATA[$P{Param_Logo}$P{Param_Logo}]]></imageExpression>
+				<imageExpression><![CDATA[$P{Param_Logo}]]></imageExpression>
 			</image>
 		</band>
 	</title>
