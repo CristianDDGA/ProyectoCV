@@ -80,25 +80,34 @@ public class VistaLogin extends javax.swing.JFrame {
                 .addGap(78, 78, 78))
         );
 
-        Left.setBackground(new java.awt.Color(255, 255, 255));
+        Left.setBackground(new java.awt.Color(71, 85, 105));
         Left.setMinimumSize(new java.awt.Dimension(400, 500));
 
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 34)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(51, 132, 242));
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("BIENVENIDO");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Usuario");
 
+        jTxtUsuario.setBackground(new java.awt.Color(203, 213, 225));
         jTxtUsuario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jTxtUsuario.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Contraseña");
 
+        jPswContrasenia.setEditable(false);
+        jPswContrasenia.setBackground(new java.awt.Color(203, 213, 225));
         jPswContrasenia.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jPswContrasenia.setForeground(new java.awt.Color(0, 0, 0));
 
         jBtnLogin.setBackground(new java.awt.Color(51, 132, 242));
         jBtnLogin.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jBtnLogin.setForeground(new java.awt.Color(255, 255, 255));
         jBtnLogin.setText("INICIAR SESION");
 
         javax.swing.GroupLayout LeftLayout = new javax.swing.GroupLayout(Left);
