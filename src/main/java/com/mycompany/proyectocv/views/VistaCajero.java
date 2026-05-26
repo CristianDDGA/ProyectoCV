@@ -877,7 +877,7 @@ public class VistaCajero extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton jBtnBuscarCliente;
-    private javax.swing.JButton jBtnCerrarSesion;
+    public javax.swing.JButton jBtnCerrarSesion;
     public javax.swing.JButton jBtnClientes;
     public javax.swing.JButton jBtnConsumidorFInal;
     public javax.swing.JButton jBtnCrearCliente;

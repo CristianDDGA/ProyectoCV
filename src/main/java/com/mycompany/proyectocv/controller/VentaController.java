@@ -94,6 +94,7 @@ public class VentaController implements ActionListener {
         this.vista.jBtnNuevaVenta.addActionListener(this);
         this.vista.jBtnClientes.addActionListener(this);
         this.vista.jBtnHistorial.addActionListener(this);
+        this.vista.jBtnCerrarSesion.addActionListener(this);
 
         // Enlazar botones del flujo de clientes en facturación
         this.vista.jBtnBuscarCliente.addActionListener(this);
@@ -339,6 +340,13 @@ public class VentaController implements ActionListener {
         } else if (e.getSource() == vista.jBtnHistorial) {
             vista.jTabbedPane1.setSelectedIndex(2);
             listarFacturas();
+        } else if (e.getSource() == vista.jBtnCerrarSesion) {
+            vista.dispose();
+            com.mycompany.proyectocv.views.VistaLogin vistaLogin = new com.mycompany.proyectocv.views.VistaLogin();
+            com.mycompany.proyectocv.daos.UsuarioDAO daoUser = new com.mycompany.proyectocv.daos.UsuarioDAO();
+            new com.mycompany.proyectocv.controller.LoginController(vistaLogin, daoUser);
+            vistaLogin.setLocationRelativeTo(null);
+            vistaLogin.setVisible(true);
         } else if (e.getSource() == vista.jBtnBuscarCliente) {
             // Abrir pestaña de buscar clientes (índice 3)
             vista.jTabbedPane1.setSelectedIndex(3);

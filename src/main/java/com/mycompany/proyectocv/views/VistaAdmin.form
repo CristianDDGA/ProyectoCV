@@ -28,7 +28,7 @@
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="jLabel2" pref="1220" max="32767" attributes="0"/>
+                      <Component id="jLabel2" pref="1203" max="32767" attributes="0"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
@@ -74,6 +74,7 @@
                       <Component id="jBtnProductos" max="32767" attributes="0"/>
                       <Component id="jBtnReport" alignment="0" max="32767" attributes="0"/>
                       <Component id="jBtnUser" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jBtnCerrarSesion" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace pref="53" max="32767" attributes="0"/>
               </Group>
@@ -91,6 +92,8 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jBtnUser" min="-2" pref="43" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
+                  <Component id="jBtnCerrarSesion" min="-2" pref="38" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -123,6 +126,20 @@
         <Component class="javax.swing.JButton" name="jBtnInventario">
           <Properties>
             <Property name="text" type="java.lang.String" value="Inventario"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JButton" name="jBtnCerrarSesion">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="cc" type="rgb"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="0" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Cerrar Sesi&#xf3;n"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>

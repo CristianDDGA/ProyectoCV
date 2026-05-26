@@ -35,6 +35,7 @@ public class AdminController implements ActionListener {
         this.vista.jBtnInventario.addActionListener(this);
         this.vista.jBtnReport.addActionListener(this); 
         this.vista.jBtnUser.addActionListener(this);   
+        this.vista.jBtnCerrarSesion.addActionListener(this);
     }
 
     @Override
@@ -52,6 +53,14 @@ public class AdminController implements ActionListener {
         }
         if (e.getSource() == vista.jBtnUser) {
             vista.jTabbedPane1.setSelectedIndex(3); 
+        }
+        if (e.getSource() == vista.jBtnCerrarSesion) {
+            vista.dispose();
+            com.mycompany.proyectocv.views.VistaLogin vistaLogin = new com.mycompany.proyectocv.views.VistaLogin();
+            com.mycompany.proyectocv.daos.UsuarioDAO daoUser = new com.mycompany.proyectocv.daos.UsuarioDAO();
+            new com.mycompany.proyectocv.controller.LoginController(vistaLogin, daoUser);
+            vistaLogin.setLocationRelativeTo(null);
+            vistaLogin.setVisible(true);
         }
     }
 }

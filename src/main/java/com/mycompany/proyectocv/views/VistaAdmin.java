@@ -31,6 +31,7 @@ public class VistaAdmin extends javax.swing.JFrame {
         jBtnReport = new javax.swing.JButton();
         jBtnUser = new javax.swing.JButton();
         jBtnInventario = new javax.swing.JButton();
+        jBtnCerrarSesion = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -112,6 +113,10 @@ public class VistaAdmin extends javax.swing.JFrame {
 
         jBtnInventario.setText("Inventario");
 
+        jBtnCerrarSesion.setBackground(new java.awt.Color(204, 255, 255));
+        jBtnCerrarSesion.setForeground(new java.awt.Color(0, 0, 0));
+        jBtnCerrarSesion.setText("Cerrar Sesión");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -122,7 +127,8 @@ public class VistaAdmin extends javax.swing.JFrame {
                     .addComponent(jBtnInventario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jBtnProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jBtnReport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBtnUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jBtnUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jBtnCerrarSesion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -136,7 +142,9 @@ public class VistaAdmin extends javax.swing.JFrame {
                 .addComponent(jBtnReport, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jBtnUser, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jBtnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63))
         );
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HeadAdmin (1).png"))); // NOI18N
@@ -633,7 +641,7 @@ public class VistaAdmin extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1220, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1203, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -707,6 +715,7 @@ public class VistaAdmin extends javax.swing.JFrame {
     public javax.swing.JButton jBtnBuscarInventario;
     public javax.swing.JButton jBtnBuscarProducto;
     public javax.swing.JButton jBtnBuscarUsuario;
+    public javax.swing.JButton jBtnCerrarSesion;
     public javax.swing.JButton jBtnEliminar;
     public javax.swing.JButton jBtnEliminarUser;
     public javax.swing.JButton jBtnGuardar;
