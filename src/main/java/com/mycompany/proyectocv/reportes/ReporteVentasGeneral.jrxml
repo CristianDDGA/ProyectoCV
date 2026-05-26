@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="67e89b30-6892-4e94-b702-78b121f2fc67">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="158"/>
+	<parameter name="Param_FechaInicio" class="java.lang.String"/>
+	<parameter name="Param_FechaFin" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT f.numero_factura, f.fecha, u.usuario AS cajero, f.total
+FROM facturas f
+INNER JOIN usuarios u ON f.id_usuario = u.id_usuario
+WHERE DATE(f.fecha) BETWEEN CAST($P{Param_FechaInicio} AS DATE) AND CAST($P{Param_FechaFin} AS DATE)
+ORDER BY f.fecha DESC]]>
+	</queryString>
+	<field name="numero_factura" class="java.lang.String"/>
+	<field name="fecha" class="java.sql.Timestamp"/>
+	<field name="cajero" class="java.lang.String"/>
+	<field name="total" class="java.math.BigDecimal"/>
+	<variable name="SumaTotal" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="129" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="86" backcolor="#FFFFFF" uuid="5c61a3fa-2a8f-4896-8967-cea939e0ec57"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[  REPORTE GENERAL  DE VENTAS]]></text>
+			</staticText>
+			<image>
+				<reportElement x="436" y="-2" width="151" height="88" uuid="a866969f-39cb-465e-af9a-8ce1d191b574"/>
+				<imageExpression><![CDATA["C:\\Users\\Lenovo\\Documents\\NetBeansProjects\\ProyectoCV\\src\\main\\resources\\UTA-STORE.png"]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="2" y="86" width="553" height="2" uuid="7a8c2105-c2e3-4653-8e8b-0cdcb38cfddf"/>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="72" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="72" forecolor="#FFFFFF" backcolor="#0099FF" uuid="9f706a20-246b-4290-98aa-484d0f020767"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VENTAS REALIZADAS]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="80" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="-3" width="555" height="83" forecolor="#000000" backcolor="#0099FF" uuid="d573bbc4-b319-4af6-972b-7a362e81bdc7"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="28" y="30" width="100" height="20" forecolor="#FFFFFF" backcolor="#0099FF" uuid="11e4a41a-bb67-4034-9731-e29aa7467065"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Factura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="172" y="30" width="100" height="20" forecolor="#FFFFFF" backcolor="#0099FF" uuid="ff5b9afc-35c7-4a5c-be9f-8996f616b5c4"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="306" y="30" width="100" height="20" forecolor="#FFFFFF" backcolor="#0099FF" uuid="e2eaa882-6972-45e0-8286-8cf0586b8a6b"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Cajero]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="436" y="30" width="100" height="20" forecolor="#FFFFFF" backcolor="#0099FF" uuid="1a41a66d-e581-4172-a43a-584fa8653e8b"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Total ($)]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="49" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="49" uuid="f6617ff3-7f66-4396-b524-81f599c7583b"/>
+			</rectangle>
+			<textField>
+				<reportElement x="28" y="16" width="100" height="20" uuid="1e546c60-6366-4f4b-a662-89627163025f"/>
+				<textFieldExpression><![CDATA[$F{numero_factura}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="172" y="16" width="100" height="20" uuid="c0aa3d81-124a-4f7a-9ce5-3f9434bbb738"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="306" y="16" width="100" height="20" uuid="2b765017-bdda-469e-8bd9-bb57a61f305b"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{cajero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="436" y="16" width="100" height="20" uuid="25ecd6ff-cccc-467a-a698-d36774aa31fb"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="314" splitType="Stretch">
+			<rectangle>
+				<reportElement x="283" y="101" width="272" height="213" uuid="ff9e1d2b-b9a4-4fe8-ad4f-628ad4284a07"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="49" uuid="e7622bc4-42d1-439b-a35c-7a102dae6c4f"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="306" y="18" width="115" height="20" uuid="e917c4a2-accf-41c5-8337-22fbf2ba0b17"/>
+				<text><![CDATA[TOTAL RECAUDADO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="455" y="18" width="100" height="20" uuid="a0ef5a31-af7e-4391-81ca-4b654a0d0284"/>
+				<textFieldExpression><![CDATA[$V{SumaTotal}]]></textFieldExpression>
+			</textField>
+			<pieChart>
+				<chart>
+					<reportElement x="306" y="116" width="230" height="187" uuid="0c8195f3-9848-4760-8095-433146038f0e"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{numero_factura} + " - " + $F{cajero}]]></keyExpression>
+					<valueExpression><![CDATA[$F{total}]]></valueExpression>
+				</pieDataset>
+				<piePlot>
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+			<rectangle>
+				<reportElement x="0" y="101" width="283" height="213" uuid="4be17bab-7a17-497b-bdd3-b2ee04a279a9"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="49" width="555" height="52" uuid="c7421621-75f1-4b17-abef-757a2923ce0c"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="160" y="71" width="233" height="30" uuid="01f128b6-9779-44cb-9a29-67be83691d03"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[GRAFICOS ESTADISTICOS]]></text>
+			</staticText>
+			<barChart>
+				<chart>
+					<reportElement x="16" y="116" width="256" height="187" uuid="5ba45eb5-dc55-4a73-9651-f83c6e5a126d"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Ingresos en Dólares"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{numero_factura}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{total}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>
