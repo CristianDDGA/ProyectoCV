@@ -25,6 +25,9 @@ public class ProductoController implements ActionListener {
     private DefaultTableModel modeloTabla;
 
     private int idProductoSeleccionado = -1;
+    
+    // Bandera para saber si el código actual viene de un escaneo
+    private boolean codigoEscaneado = false;
 
     public ProductoController(VistaAdmin vista, ProductoDAO dao) {
         this.vista = vista;
@@ -49,10 +52,13 @@ public class ProductoController implements ActionListener {
         });
 
         listar(); // Llenar la tabla al iniciar
-        generarYCargarCodigo(); // Generar código automáticamente al abrir
+        
+        // TxtCodigo empieza vacío y no editable para que solo se llene vía escáner o generación
+        vista.TxtCodigo.setText("");
+        vista.TxtCodigo.setEditable(false);
 
-        // --- ESCÁNER DE CÓDIGO DE BARRAS ---
-        this.vista.jBtnEscanearCodigo.addActionListener(this);
+        // --- ESCÁNER DE CÓDIGO DE BARRAS SIEMPRE ACTIVO ---
+        // El campo de escaneo está siempre visible y escuchando
         this.vista.jTxtEscanerAdmin.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -61,13 +67,9 @@ public class ProductoController implements ActionListener {
                 }
             }
         });
-        vista.jTxtEscanerAdmin.setVisible(false); // empieza oculto
-    }
-
-    private void generarYCargarCodigo() {
-        String nuevoCodigo = generarCodigoBarras();
-        vista.TxtCodigo.setText(nuevoCodigo);
-        vista.TxtCodigo.setEditable(false);
+        // El campo de escaneo siempre visible — el botón de alternar ya no se necesita
+        vista.jTxtEscanerAdmin.setVisible(true);
+        vista.jBtnEscanearCodigo.setVisible(false); // Ocultar el botón, el escaneo es siempre activo
     }
 
     @Override
@@ -92,38 +94,54 @@ public class ProductoController implements ActionListener {
             limpiarCampos(); // Deseleccionamos cualquier cosa que estuviera marcada
         }
 
-        // --- BOTÓN ESCANEAR CÓDIGO ---
-        if (e.getSource() == vista.jBtnEscanearCodigo) {
-            activarModoEscaner();
-        }
-
         // --- BOTÓN GUARDAR ---
         if (e.getSource() == vista.jBtnGuardar) {
-            if (validarDatos()) {
-                String codigoIngresado = vista.TxtCodigo.getText().trim();
-                
-                if (codigoIngresado.isEmpty()) {
-                    codigoIngresado = generarCodigoBarras();
-                } else if (dao.codigoExiste(codigoIngresado)) {
-                    JOptionPane.showMessageDialog(vista, "El código de barras ya existe. Use otro o deje el campo vacío para generar uno automático.", "Código Duplicado", JOptionPane.ERROR_MESSAGE);
+            // Primero aseguramos que nombre y precio sean válidos
+            if (vista.jTxtNombre.getText().trim().isEmpty()
+                    || vista.jTxtPrecio.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(vista, "Por favor, llene el nombre y el precio del producto.", "Campos Incompletos", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            // Validar precio
+            double precio;
+            try {
+                precio = Double.parseDouble(vista.jTxtPrecio.getText().trim());
+                if (precio <= 0) {
+                    JOptionPane.showMessageDialog(vista, "El precio debe ser mayor a 0.", "Valor Inválido", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                
-                Producto p = new Producto(
-                        codigoIngresado,
-                        vista.jTxtNombre.getText().trim(),
-                        Double.parseDouble(vista.jTxtPrecio.getText().trim())
-                );
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(vista, "El precio debe ser un número válido.\nUse punto (.) para decimales, ejemplo: 2.50", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-                if (dao.registrar(p)) {
-                    JOptionPane.showMessageDialog(vista, "Producto Registrado con Código: " + codigoIngresado, "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                    VisorCodigoBarras.mostrar(vista, codigoIngresado, vista.jTxtNombre.getText().trim());
-                    limpiarTabla();
-                    listar();
-                    generarYCargarCodigo(); // Generar nuevo código automáticamente para el siguiente
-                } else {
-                    JOptionPane.showMessageDialog(vista, "Error al registrar el producto.\nVerifique que el código no esté duplicado.", "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
-                }
+            // Obtener/Generar código de barras
+            String codigoIngresado = vista.TxtCodigo.getText().trim();
+            
+            if (codigoIngresado.isEmpty()) {
+                // Campo vacío → generamos uno automático
+                codigoIngresado = GeneradorCodigoBarras.generarCodigoUnico();
+                vista.TxtCodigo.setText(codigoIngresado); // Mostrar el generado
+            } else if (dao.codigoExiste(codigoIngresado)) {
+                JOptionPane.showMessageDialog(vista, "El código de barras ya existe. Use otro o deje el campo vacío para generar uno automático.", "Código Duplicado", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Producto p = new Producto(
+                    codigoIngresado,
+                    vista.jTxtNombre.getText().trim(),
+                    precio
+            );
+
+            if (dao.registrar(p)) {
+                JOptionPane.showMessageDialog(vista, "Producto Registrado con Código: " + codigoIngresado, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                VisorCodigoBarras.mostrar(vista, codigoIngresado, vista.jTxtNombre.getText().trim());
+                limpiarTabla();
+                listar();
+                limpiarCampos(); // Limpiar todo para el siguiente producto
+            } else {
+                JOptionPane.showMessageDialog(vista, "Error al registrar el producto. Verifique que el código no esté duplicado.", "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
             }
         }
 
@@ -270,7 +288,9 @@ public class ProductoController implements ActionListener {
                 }
 
                 idProductoSeleccionado = Integer.parseInt(vista.jTable1.getValueAt(fila, 0).toString());
+                codigoEscaneado = false; // Ya no es un código escaneado, es de la BD
 
+                vista.TxtCodigo.setEditable(false);
                 vista.TxtCodigo.setText(vista.jTable1.getValueAt(fila, 1) != null ? vista.jTable1.getValueAt(fila, 1).toString() : "");
                 vista.jTxtNombre.setText(vista.jTable1.getValueAt(fila, 2) != null ? vista.jTable1.getValueAt(fila, 2).toString() : "");
                 vista.jTxtPrecio.setText(vista.jTable1.getValueAt(fila, 3) != null ? vista.jTable1.getValueAt(fila, 3).toString() : "");
@@ -290,53 +310,45 @@ public class ProductoController implements ActionListener {
 
     private void limpiarCampos() {
         idProductoSeleccionado = -1;
-        generarYCargarCodigo();
+        codigoEscaneado = false;
+        vista.TxtCodigo.setText("");      // Vacío → se generará automático al guardar si no se escanea
+        vista.TxtCodigo.setEditable(false);
         vista.jTxtNombre.setText("");
         vista.jTxtPrecio.setText("");
-    }
-
-    public String generarCodigoBarras() {
-        String nuevoCodigo = GeneradorCodigoBarras.generarCodigoUnico();
-        return nuevoCodigo;
+        vista.jTxtEscanerAdmin.setText(""); // Limpiar también el campo de escaneo
     }
 
     // =======================================================
     // ESCÁNER DE CÓDIGO DE BARRAS (Open Food Facts)
+    // Siempre activo — no requiere clickear un botón
     // =======================================================
-
-    public void activarModoEscaner() {
-        vista.jBtnEscanearCodigo.setVisible(false);
-        vista.jTxtEscanerAdmin.setVisible(true);
-        vista.jTxtEscanerAdmin.requestFocusInWindow();
-    }
-
-    private void salirModoEscaner() {
-        vista.jTxtEscanerAdmin.setText("");
-        vista.jTxtEscanerAdmin.setVisible(false);
-        vista.jBtnEscanearCodigo.setVisible(true);
-    }
 
     private void procesarEscaneo() {
         String codigo = vista.jTxtEscanerAdmin.getText().trim();
         if (codigo.isEmpty()) {
-            salirModoEscaner();
             return;
         }
 
+        // Guardamos que esto viene de un escaneo
+        codigoEscaneado = true;
+
+        // Poner el código escaneado en TxtCodigo INMEDIATAMENTE
+        vista.TxtCodigo.setText(codigo);
+
+        // Buscar producto en Open Food Facts
         ProductoLookup lookup = BarcodeLookupService.buscar(codigo);
 
         if (lookup.isEncontrado()) {
-            vista.TxtCodigo.setText(codigo);
             vista.jTxtNombre.setText(lookup.getNombre());
-            salirModoEscaner();
+            vista.jTxtEscanerAdmin.setText(""); // Limpiar para próximo escaneo
             vista.jTxtPrecio.requestFocusInWindow();
             JOptionPane.showMessageDialog(vista,
                     "Producto encontrado: " + lookup.getNombre(),
                     "Escaneo Exitoso", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            vista.TxtCodigo.setText(codigo);
-            salirModoEscaner();
+            vista.jTxtNombre.setText("");
             vista.jTxtNombre.requestFocusInWindow();
+            vista.jTxtEscanerAdmin.setText(""); // Limpiar para próximo escaneo
             JOptionPane.showMessageDialog(vista,
                     "Código " + codigo + " no encontrado.\nComplete los datos manualmente.",
                     "No Encontrado", JOptionPane.WARNING_MESSAGE);
