@@ -9,7 +9,6 @@ import com.mycompany.proyectocv.daos.FacturaDAO;
 import com.mycompany.proyectocv.views.VistaLogin;
 import com.mycompany.proyectocv.views.VistaAdmin;
 import com.mycompany.proyectocv.views.VistaCajero;
-import com.mycompany.proyectocv.views.VistaVentas;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
