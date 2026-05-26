@@ -111,7 +111,7 @@ public class ProductoController implements ActionListener {
                     JOptionPane.showMessageDialog(vista, "El precio debe ser mayor a 0.", "Valor Inválido", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(vista, "El precio debe ser un número válido.\nUse punto (.) para decimales, ejemplo: 2.50", "Error de Formato", JOptionPane.ERROR_MESSAGE);
                 return;
             }
