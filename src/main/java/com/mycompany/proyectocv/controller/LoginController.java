@@ -4,6 +4,8 @@ import com.mycompany.proyectocv.daos.UsuarioDAO;
 import com.mycompany.proyectocv.model.Usuario;
 import com.mycompany.proyectocv.daos.ProductoDAO;
 import com.mycompany.proyectocv.daos.InventarioDAO;
+import com.mycompany.proyectocv.daos.ClienteDAO;
+import com.mycompany.proyectocv.daos.FacturaDAO;
 import com.mycompany.proyectocv.views.VistaLogin;
 import com.mycompany.proyectocv.views.VistaAdmin;
 import com.mycompany.proyectocv.views.VistaCajero;
@@ -70,7 +72,13 @@ public class LoginController implements ActionListener {
                     } else if (u.getRol().equals("Cajero")) {
 
                         // Si es Cajero, abrimos el Punto de Venta
-                        VistaCajero vistaCajero= new VistaCajero();
+                        VistaCajero vistaCajero = new VistaCajero();
+                        
+                        // Instanciamos los DAOs y el controlador para el Cajero
+                        ClienteDAO clienteDao = new ClienteDAO();
+                        FacturaDAO facturaDao = new FacturaDAO();
+                        VentaController ventaController = new VentaController(vistaCajero, clienteDao, facturaDao);
+
                         vistaCajero.setLocationRelativeTo(null);
                         vistaCajero.setVisible(true);
                     }

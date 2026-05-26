@@ -28,7 +28,7 @@ public class VistaCajero extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jBtnNuevaVenta = new javax.swing.JButton();
-        jBtnCliente = new javax.swing.JButton();
+        jBtnClientes = new javax.swing.JButton();
         jBtnHistorial = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -74,7 +74,7 @@ public class VistaCajero extends javax.swing.JFrame {
         jTxtBuscarCliente = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTblClientes = new javax.swing.JTable();
         jPanel10 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jCbxTipoId = new javax.swing.JComboBox<>();
@@ -97,7 +97,7 @@ public class VistaCajero extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jTxtBuscarFactura = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jTblFacturas = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -107,7 +107,7 @@ public class VistaCajero extends javax.swing.JFrame {
 
         jBtnNuevaVenta.setText("Nueva Venta");
 
-        jBtnCliente.setText("Clientes");
+        jBtnClientes.setText("Clientes");
 
         jBtnHistorial.setText("Historial");
 
@@ -120,7 +120,7 @@ public class VistaCajero extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jBtnHistorial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jBtnNuevaVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBtnCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jBtnClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -129,7 +129,7 @@ public class VistaCajero extends javax.swing.JFrame {
                 .addGap(222, 222, 222)
                 .addComponent(jBtnNuevaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jBtnCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jBtnClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jBtnHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(493, Short.MAX_VALUE))
@@ -455,7 +455,7 @@ public class VistaCajero extends javax.swing.JFrame {
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("CLIENTES"));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -466,7 +466,7 @@ public class VistaCajero extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTblClientes);
 
         jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder("NUEVO CLIENTE"));
 
@@ -617,7 +617,7 @@ public class VistaCajero extends javax.swing.JFrame {
 
         jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("FACTURAS"));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jTblFacturas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -628,7 +628,7 @@ public class VistaCajero extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(jTblFacturas);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -669,6 +669,7 @@ public class VistaCajero extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -705,16 +706,16 @@ public class VistaCajero extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jBtnBuscarCliente;
-    public javax.swing.JButton jBtnCliente;
-    private javax.swing.JButton jBtnCrearCliente;
+    public javax.swing.JButton jBtnBuscarCliente;
+    public javax.swing.JButton jBtnClientes;
+    public javax.swing.JButton jBtnCrearCliente;
     public javax.swing.JButton jBtnHistorial;
     public javax.swing.JButton jBtnNuevaVenta;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox<String> jCbxTipoId;
+    public javax.swing.JButton jButton1;
+    public javax.swing.JButton jButton2;
+    public javax.swing.JButton jButton3;
+    public javax.swing.JButton jButton5;
+    public javax.swing.JComboBox<String> jCbxTipoId;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -729,8 +730,8 @@ public class VistaCajero extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
+    public javax.swing.JLabel jLabel22;
+    public javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
@@ -739,12 +740,12 @@ public class VistaCajero extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel jLblSubtotales;
+    public javax.swing.JLabel jLblSubtotales;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    public javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -758,24 +759,24 @@ public class VistaCajero extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     public javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTblDetalleProductos;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTxtApellidoRegistro;
-    private javax.swing.JTextField jTxtBuscarCliente;
-    private javax.swing.JTextField jTxtBuscarFactura;
-    private javax.swing.JTextField jTxtCorreoElectronicoRegistro;
-    private javax.swing.JTextField jTxtFechaNacimientoRegistro;
-    private javax.swing.JTextField jTxtNombreCliente;
-    private javax.swing.JTextField jTxtNombreRegistro;
-    private javax.swing.JTextField jTxtNumeroId;
-    private javax.swing.JTextField jTxtNumeroIdRegistro;
-    private javax.swing.JTextField jTxtRazonSocialRegistro;
-    private javax.swing.JTextField jTxtTipoId;
-    private javax.swing.JTextField jtxtDireccion;
-    private javax.swing.JTextField jtxtFechaEmision;
+    public javax.swing.JTable jTblClientes;
+    public javax.swing.JTable jTblDetalleProductos;
+    public javax.swing.JTable jTblFacturas;
+    public javax.swing.JTextField jTextField2;
+    public javax.swing.JTextField jTextField3;
+    public javax.swing.JTextField jTextField4;
+    public javax.swing.JTextField jTxtApellidoRegistro;
+    public javax.swing.JTextField jTxtBuscarCliente;
+    public javax.swing.JTextField jTxtBuscarFactura;
+    public javax.swing.JTextField jTxtCorreoElectronicoRegistro;
+    public javax.swing.JTextField jTxtFechaNacimientoRegistro;
+    public javax.swing.JTextField jTxtNombreCliente;
+    public javax.swing.JTextField jTxtNombreRegistro;
+    public javax.swing.JTextField jTxtNumeroId;
+    public javax.swing.JTextField jTxtNumeroIdRegistro;
+    public javax.swing.JTextField jTxtRazonSocialRegistro;
+    public javax.swing.JTextField jTxtTipoId;
+    public javax.swing.JTextField jtxtDireccion;
+    public javax.swing.JTextField jtxtFechaEmision;
     // End of variables declaration//GEN-END:variables
 }
