@@ -46,6 +46,7 @@ public class VistaCajero extends javax.swing.JFrame {
         jTxtNombreCliente = new javax.swing.JTextField();
         jtxtDireccion = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
+        jBtnConsumidorFInal = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jTxtCorreo = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
@@ -195,6 +196,8 @@ public class VistaCajero extends javax.swing.JFrame {
 
         jLabel16.setText("Dirección:");
 
+        jBtnConsumidorFInal.setText("Consumidor Final");
+
         jLabel6.setText("Correo Electrónico:");
 
         jTxtCorreo.setEditable(false);
@@ -217,7 +220,7 @@ public class VistaCajero extends javax.swing.JFrame {
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTxtTipoId, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTxtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -233,7 +236,9 @@ public class VistaCajero extends javax.swing.JFrame {
                                 .addGap(26, 26, 26)
                                 .addComponent(jBtnBuscarCliente)
                                 .addGap(18, 18, 18)
-                                .addComponent(jBtnCrearCliente)))))
+                                .addComponent(jBtnCrearCliente)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jBtnConsumidorFInal, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -246,7 +251,8 @@ public class VistaCajero extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jTxtNumeroId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBtnBuscarCliente)
-                    .addComponent(jBtnCrearCliente))
+                    .addComponent(jBtnCrearCliente)
+                    .addComponent(jBtnConsumidorFInal))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
@@ -873,6 +879,7 @@ public class VistaCajero extends javax.swing.JFrame {
     public javax.swing.JButton jBtnBuscarCliente;
     private javax.swing.JButton jBtnCerrarSesion;
     public javax.swing.JButton jBtnClientes;
+    private javax.swing.JButton jBtnConsumidorFInal;
     public javax.swing.JButton jBtnCrearCliente;
     public javax.swing.JButton jBtnGenerarFactura;
     public javax.swing.JButton jBtnHistorial;
