@@ -9,15 +9,25 @@ import com.mycompany.proyectocv.model.Producto;
 import com.mycompany.proyectocv.model.Usuario;
 import com.mycompany.proyectocv.views.VistaCajero;
 import com.formdev.flatlaf.ui.FlatTabbedPaneUI;
+import com.mycompany.proyectocv.daos.ConexionBD;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class VentaController implements ActionListener {
 
@@ -590,7 +600,7 @@ public class VentaController implements ActionListener {
 
             if (facturaDao.registrarFactura(f, detalles)) {
                 JOptionPane.showMessageDialog(vista, "Factura " + f.getNumeroFactura() + " generada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                
+                imprimirFactura(f.getNumeroFactura());
                 // Limpiar campos
                 modelDetalle.setRowCount(0);
                 vista.jTxtTipoId.setText("");
@@ -725,6 +735,38 @@ public class VentaController implements ActionListener {
             return String.format(formatStr, prefix, sec);
         } catch (Exception e) {
             return "FACT-001";
+        }
+    }
+    
+ private void imprimirFactura(String numeroFactura) {
+        try {
+            Map<String, Object> parametros = new HashMap<>();
+            parametros.put("Param_NumeroFactura", numeroFactura);
+
+            // Ajusta esta ruta a donde esté tu archivo .jrxml
+            String rutaReporte = "src/main/java/com/mycompany/proyectocv/reportes/Factura.jrxml";
+            
+            com.mycompany.proyectocv.daos.ConexionBD connObj = new com.mycompany.proyectocv.daos.ConexionBD();
+            Connection con = connObj.conectarBD(); 
+
+            if (con != null) {
+                JasperReport reporte = JasperCompileManager.compileReport(rutaReporte);
+                JasperPrint print = JasperFillManager.fillReport(reporte, parametros, con);
+                
+                // 1. Mostrar en pantalla (lo que ya tenías)
+                JasperViewer.viewReport(print, false);
+                
+                // 2. Guardar automáticamente en src/main/resources/facturas/
+                // Asegúrate de que la carpeta 'facturas' exista dentro de 'src/main/resources/'
+                String rutaGuardado = "src/main/resources/facturas/" + numeroFactura + ".pdf";
+                JasperExportManager.exportReportToPdfFile(print, rutaGuardado);
+                
+                con.close(); 
+            }
+            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(vista, "Error al generar el PDF: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
 }
