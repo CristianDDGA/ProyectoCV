@@ -2,6 +2,8 @@ package com.mycompany.proyectocv.controller;
 
 import com.mycompany.proyectocv.daos.ProductoDAO;
 import com.mycompany.proyectocv.model.Producto;
+import com.mycompany.proyectocv.utils.GeneradorCodigoBarras;
+import com.mycompany.proyectocv.utils.VisorCodigoBarras;
 import com.mycompany.proyectocv.views.VistaAdmin;
 
 import java.awt.event.ActionEvent;
@@ -30,6 +32,7 @@ public class ProductoController implements ActionListener {
         this.vista.jBtnActualizar.addActionListener(this);
         this.vista.jBtnEliminar.addActionListener(this);
         this.vista.jBtnLimpiar.addActionListener(this);
+        this.vista.jBtnVerCodigo.addActionListener(this);
         this.vista.jBtnBuscarProducto.addActionListener(this);
         this.vista.jBtnRefrescarProducto.addActionListener(this);
 
@@ -42,6 +45,13 @@ public class ProductoController implements ActionListener {
         });
 
         listar(); // Llenar la tabla al iniciar
+        generarYCargarCodigo(); // Generar código automáticamente al abrir
+    }
+
+    private void generarYCargarCodigo() {
+        String nuevoCodigo = generarCodigoBarras();
+        vista.TxtCodigo.setText(nuevoCodigo);
+        vista.TxtCodigo.setEditable(false);
     }
 
     @Override
@@ -69,18 +79,27 @@ public class ProductoController implements ActionListener {
         // --- BOTÓN GUARDAR ---
         if (e.getSource() == vista.jBtnGuardar) {
             if (validarDatos()) {
-                // Usamos el constructor limpio de 3 parámetros
+                String codigoIngresado = vista.TxtCodigo.getText().trim();
+                
+                if (codigoIngresado.isEmpty()) {
+                    codigoIngresado = generarCodigoBarras();
+                } else if (dao.codigoExiste(codigoIngresado)) {
+                    JOptionPane.showMessageDialog(vista, "El código de barras ya existe. Use otro o deje el campo vacío para generar uno automático.", "Código Duplicado", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
                 Producto p = new Producto(
-                        vista.TxtCodigo.getText().trim(),
+                        codigoIngresado,
                         vista.jTxtNombre.getText().trim(),
                         Double.parseDouble(vista.jTxtPrecio.getText().trim())
                 );
 
                 if (dao.registrar(p)) {
-                    JOptionPane.showMessageDialog(vista, "Producto Registrado Exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(vista, "Producto Registrado con Código: " + codigoIngresado, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                    VisorCodigoBarras.mostrar(vista, codigoIngresado, vista.jTxtNombre.getText().trim());
                     limpiarTabla();
                     listar();
-                    limpiarCampos();
+                    generarYCargarCodigo(); // Generar nuevo código automáticamente para el siguiente
                 } else {
                     JOptionPane.showMessageDialog(vista, "Error al registrar el producto.\nVerifique que el código no esté duplicado.", "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
                 }
@@ -133,6 +152,22 @@ public class ProductoController implements ActionListener {
         // --- BOTÓN LIMPIAR ---
         if (e.getSource() == vista.jBtnLimpiar) {
             limpiarCampos();
+        }
+
+        // --- BOTÓN VER CÓDIGO ---
+        if (e.getSource() == vista.jBtnVerCodigo) {
+            int fila = vista.jTable1.getSelectedRow();
+            if (fila == -1) {
+                JOptionPane.showMessageDialog(vista, "Seleccione un producto de la tabla primero", "Aviso", JOptionPane.WARNING_MESSAGE);
+            } else {
+                try {
+                    String codigo = vista.jTable1.getValueAt(fila, 1).toString();
+                    String nombre = vista.jTable1.getValueAt(fila, 2).toString();
+                    VisorCodigoBarras.mostrar(vista, codigo, nombre);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(vista, "Error al mostrar código: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
     }
 
@@ -234,8 +269,13 @@ public class ProductoController implements ActionListener {
 
     private void limpiarCampos() {
         idProductoSeleccionado = -1;
-        vista.TxtCodigo.setText("");
+        generarYCargarCodigo();
         vista.jTxtNombre.setText("");
         vista.jTxtPrecio.setText("");
+    }
+
+    public String generarCodigoBarras() {
+        String nuevoCodigo = GeneradorCodigoBarras.generarCodigoUnico();
+        return nuevoCodigo;
     }
 }
