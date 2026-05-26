@@ -879,7 +879,7 @@ public class VistaCajero extends javax.swing.JFrame {
     public javax.swing.JButton jBtnBuscarCliente;
     private javax.swing.JButton jBtnCerrarSesion;
     public javax.swing.JButton jBtnClientes;
-    private javax.swing.JButton jBtnConsumidorFInal;
+    public javax.swing.JButton jBtnConsumidorFInal;
     public javax.swing.JButton jBtnCrearCliente;
     public javax.swing.JButton jBtnGenerarFactura;
     public javax.swing.JButton jBtnHistorial;
