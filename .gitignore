@@ -14,3 +14,9 @@ Thumbs.db
 
 # Ignorar las credenciales locales de la base de datos
 db.properties
+
+# Archivos locales de OpenCode
+.atl/
+
+# Códigos de barras generados por la app
+codigos-barras/

@@ -9,26 +9,21 @@ import com.mycompany.proyectocv.model.Producto;
 import com.mycompany.proyectocv.model.Usuario;
 import com.mycompany.proyectocv.views.VistaCajero;
 import com.formdev.flatlaf.ui.FlatTabbedPaneUI;
-import com.mycompany.proyectocv.daos.ConexionBD;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.InputStream;
-import java.sql.Connection;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.view.JasperViewer;
 
 public class VentaController implements ActionListener {
 
@@ -105,13 +100,12 @@ public class VentaController implements ActionListener {
         this.vista.jBtnNuevaVenta.addActionListener(this);
         this.vista.jBtnClientes.addActionListener(this);
         this.vista.jBtnHistorial.addActionListener(this);
-        this.vista.jBtnCerrarSesion.addActionListener(this);
 
         // Enlazar botones del flujo de clientes en facturación
         this.vista.jBtnBuscarCliente.addActionListener(this);
         this.vista.jBtnSeleccionarBuscar.addActionListener(this);
         this.vista.jBtnCrearCliente.addActionListener(this);
-        this.vista.jBtnConsumidorFInal.addActionListener(this); // Consumidor Final
+        this.vista.jButton3.addActionListener(this); // Consumidor Final
 
         // Enlazar botón Generar Factura
         this.vista.jBtnGenerarFactura.addActionListener(this);
@@ -171,6 +165,121 @@ public class VentaController implements ActionListener {
         listarProductosBuscar("");
         listarFacturas();
         recalcularTotales();
+
+        // Ocultar el campo de escáner (se maneja desde el botón)
+        this.vista.jTxtEscaner.setVisible(false);
+        this.vista.jTxtEscaner.setEnabled(true);
+
+        // Botón grande de escaneo — activa modo escáner
+        this.vista.jBtnEscanear.addActionListener(e -> activarModoEscaner());
+
+        // Configurar listeners para el escáner de códigos de barras
+        this.vista.jTxtEscaner.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    e.consume();
+                    SwingUtilities.invokeLater(() -> {
+                        String entrada = vista.jTxtEscaner.getText().trim();
+                        if (!entrada.isEmpty()) {
+                            procesarEscaneo(entrada);
+                        }
+                    });
+                } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    salirModoEscaner();
+                }
+            }
+        });
+
+        // Salir del modo escáner cuando el usuario hace clic en otro componente
+        this.vista.jTxtEscaner.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                Component opposite = e.getOppositeComponent();
+                // No salir si el foco va al botón (lo clickeó para activar modo)
+                // No salir si opposite es null (cambio de ventana, ej. JOptionPane)
+                if (opposite != null && opposite != vista.jBtnEscanear) {
+                    salirModoEscaner();
+                }
+            }
+        });
+
+        // Dar foco al botón de escáner al iniciar
+        this.vista.jBtnEscanear.requestFocus();
+
+        // Robar foco cada vez que la ventana se activa
+        this.vista.addWindowFocusListener(new WindowAdapter() {
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+                if (vista.jTxtEscaner.isVisible()) {
+                    vista.jTxtEscaner.requestFocusInWindow();
+                } else {
+                    vista.jBtnEscanear.requestFocusInWindow();
+                }
+            }
+        });
+    }
+
+    private void procesarEscaneo(String codigo) {
+        Producto producto = productoDao.buscarPorCodigo(codigo);
+
+        if (producto == null) {
+            JOptionPane.showMessageDialog(vista,
+                    "Código " + codigo + " no está registrado en el sistema.\n\n"
+                    + "Debe agregar el producto desde el panel de Administración\n"
+                    + "antes de poder venderlo en el cajero.",
+                    "Producto No Registrado", JOptionPane.WARNING_MESSAGE);
+            resetearModoEscaner();
+            return;
+        }
+
+        int stockDisponible = inventarioDao.obtenerStockPorCodigo(codigo);
+        if (stockDisponible <= 0) {
+            JOptionPane.showMessageDialog(vista, "Producto sin stock disponible.\nStock actual: " + stockDisponible, "Stock Agotado", JOptionPane.WARNING_MESSAGE);
+            resetearModoEscaner();
+            return;
+        }
+
+        int cantEnTabla = 0;
+        DefaultTableModel model = (DefaultTableModel) vista.jTblDetalleProductos.getModel();
+        for (int i = 0; i < model.getRowCount(); i++) {
+            if (model.getValueAt(i, 0).toString().equals(codigo)) {
+                cantEnTabla = Integer.parseInt(model.getValueAt(i, 2).toString());
+                break;
+            }
+        }
+
+        if (cantEnTabla + 1 > stockDisponible) {
+            JOptionPane.showMessageDialog(vista, "No hay suficiente stock.\nStock disponible: " + stockDisponible + "\nYa en carrito: " + cantEnTabla, "Stock Insuficiente", JOptionPane.WARNING_MESSAGE);
+            resetearModoEscaner();
+            return;
+        }
+
+        agregarProductoALaTabla(codigo, producto.getNombre(), 1, producto.getPrecio());
+        // Escaneo exitoso: limpia y queda listo para el próximo
+        vista.jTxtEscaner.setText("");
+        vista.jTxtEscaner.requestFocusInWindow();
+    }
+
+    /** Activa el modo escáner: muestra el campo y le da foco */
+    private void activarModoEscaner() {
+        vista.jTxtEscaner.setText("");
+        vista.jTxtEscaner.setVisible(true);
+        vista.jBtnEscanear.setText("📷 ESCANEE EL PRODUCTO...");
+        SwingUtilities.invokeLater(() -> vista.jTxtEscaner.requestFocusInWindow());
+    }
+
+    /** Sale del modo escáner: oculta campo, restaura el botón */
+    private void salirModoEscaner() {
+        vista.jTxtEscaner.setText("");
+        vista.jTxtEscaner.setVisible(false);
+        vista.jBtnEscanear.setText("📷 ESCANEAR PRODUCTO");
+        vista.jBtnEscanear.requestFocusInWindow();
+    }
+
+    /** Resetea tras un error de escaneo */
+    private void resetearModoEscaner() {
+        salirModoEscaner();
     }
 
     private void configurarCamposRegistroPorTipoId() {
@@ -351,13 +460,6 @@ public class VentaController implements ActionListener {
         } else if (e.getSource() == vista.jBtnHistorial) {
             vista.jTabbedPane1.setSelectedIndex(2);
             listarFacturas();
-        } else if (e.getSource() == vista.jBtnCerrarSesion) {
-            vista.dispose();
-            com.mycompany.proyectocv.views.VistaLogin vistaLogin = new com.mycompany.proyectocv.views.VistaLogin();
-            com.mycompany.proyectocv.daos.UsuarioDAO daoUser = new com.mycompany.proyectocv.daos.UsuarioDAO();
-            new com.mycompany.proyectocv.controller.LoginController(vistaLogin, daoUser);
-            vistaLogin.setLocationRelativeTo(null);
-            vistaLogin.setVisible(true);
         } else if (e.getSource() == vista.jBtnBuscarCliente) {
             // Abrir pestaña de buscar clientes (índice 3)
             vista.jTabbedPane1.setSelectedIndex(3);
@@ -551,7 +653,7 @@ public class VentaController implements ActionListener {
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(vista, "Por favor ingrese un número entero válido para la cantidad.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
             }
-        } else if (e.getSource() == vista.jBtnConsumidorFInal) {
+        } else if (e.getSource() == vista.jButton3) {
             // Consumidor Final
             clienteSeleccionado = null;
             vista.jTxtTipoId.setText("Consumidor Final");
@@ -601,7 +703,7 @@ public class VentaController implements ActionListener {
 
             if (facturaDao.registrarFactura(f, detalles)) {
                 JOptionPane.showMessageDialog(vista, "Factura " + f.getNumeroFactura() + " generada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                imprimirFactura(f.getNumeroFactura());
+                
                 // Limpiar campos
                 modelDetalle.setRowCount(0);
                 vista.jTxtTipoId.setText("");
@@ -736,44 +838,6 @@ public class VentaController implements ActionListener {
             return String.format(formatStr, prefix, sec);
         } catch (Exception e) {
             return "FACT-001";
-        }
-    }
-    
- private void imprimirFactura(String numeroFactura) {
-        try {
-            Map<String, Object> parametros = new HashMap<>();
-            parametros.put("Param_NumeroFactura", numeroFactura);
-            InputStream logoStream = getClass().getResourceAsStream("/UTA-STORE.png");
-            if (logoStream == null) {
-                System.out.println("No se encontró la imagen del logo en la ruta especificada.");
-            } else {
-                parametros.put("Param_Logo", logoStream);
-            }
-
-            // Ajusta esta ruta a donde esté tu archivo .jrxml
-            String rutaReporte = "src/main/java/com/mycompany/proyectocv/reportes/Factura.jrxml";
-            
-            com.mycompany.proyectocv.daos.ConexionBD connObj = new com.mycompany.proyectocv.daos.ConexionBD();
-            Connection con = connObj.conectarBD(); 
-
-            if (con != null) {
-                JasperReport reporte = JasperCompileManager.compileReport(rutaReporte);
-                JasperPrint print = JasperFillManager.fillReport(reporte, parametros, con);
-                
-                // 1. Mostrar en pantalla (lo que ya tenías)
-                JasperViewer.viewReport(print, false);
-                
-                // 2. Guardar automáticamente en src/main/resources/facturas/
-                // Asegúrate de que la carpeta 'facturas' exista dentro de 'src/main/resources/'
-                String rutaGuardado = "src/main/resources/facturas/" + numeroFactura + ".pdf";
-                JasperExportManager.exportReportToPdfFile(print, rutaGuardado);
-                
-                con.close(); 
-            }
-            
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(vista, "Error al generar el PDF: " + ex.getMessage());
-            ex.printStackTrace();
         }
     }
 }

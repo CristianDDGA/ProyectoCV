@@ -140,7 +140,42 @@ public class ProductoDAO {
         }
     }
 
-    // 4. ELIMINAR PRODUCTO
+    // 4. BUSCAR POR CÓDIGO EXACTO (Para escáner de barras)
+    public Producto buscarPorCodigo(String codigo) {
+        String sql = "SELECT * FROM productos WHERE codigo = ?";
+        try (Connection conn = conexion.conectarBD(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, codigo);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Producto p = new Producto();
+                    p.setIdProducto(rs.getInt("id_producto"));
+                    p.setCodigo(rs.getString("codigo"));
+                    p.setNombre(rs.getString("nombre"));
+                    p.setPrecio(rs.getDouble("precio"));
+                    return p;
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error al buscar por código: " + e.getMessage());
+        }
+        return null;
+    }
+
+    // 4b. VERIFICAR SI UN CÓDIGO YA EXISTE
+    public boolean codigoExiste(String codigo) {
+        String sql = "SELECT 1 FROM productos WHERE codigo = ?";
+        try (Connection conn = conexion.conectarBD(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, codigo);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (Exception e) {
+            System.err.println("Error al verificar código: " + e.getMessage());
+        }
+        return false;
+    }
+
+    // 5. ELIMINAR PRODUCTO
     public boolean eliminar(int idProducto) {
         // Gracias a la restricción "ON DELETE CASCADE" en PostgreSQL, 
         // solo necesitamos borrar el producto; la BD borrará su stock aut omáticamente.
