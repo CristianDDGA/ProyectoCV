@@ -53,6 +53,9 @@ public class VistaAdmin extends javax.swing.JFrame {
         jTxtBuscarProducto = new javax.swing.JTextField();
         jBtnBuscarProducto = new javax.swing.JButton();
         jBtnRefrescarProducto = new javax.swing.JButton();
+        jBtnVerCodigo = new javax.swing.JButton();
+        jBtnEscanearCodigo = new javax.swing.JButton();
+        jTxtEscanerAdmin = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jTxtCantidadSumar = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
@@ -271,6 +274,18 @@ public class VistaAdmin extends javax.swing.JFrame {
         jBtnRefrescarProducto.setForeground(new java.awt.Color(255, 255, 255));
         jBtnRefrescarProducto.setText("Refrescar");
 
+        jBtnVerCodigo.setBackground(new java.awt.Color(51, 132, 242));
+        jBtnVerCodigo.setForeground(new java.awt.Color(255, 255, 255));
+        jBtnVerCodigo.setText("🔍 Ver Código");
+
+        jBtnEscanearCodigo.setBackground(new java.awt.Color(27, 135, 85));
+        jBtnEscanearCodigo.setForeground(new java.awt.Color(255, 255, 255));
+        jBtnEscanearCodigo.setText("Escanear Código");
+
+        jTxtEscanerAdmin.setBackground(new java.awt.Color(203, 213, 225));
+        jTxtEscanerAdmin.setForeground(new java.awt.Color(0, 0, 0));
+        jTxtEscanerAdmin.setToolTipText("Escanee el código de barras aquí y presione Enter");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -343,7 +358,13 @@ public class VistaAdmin extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jBtnActualizar)
                         .addGap(18, 18, 18)
-                        .addComponent(jBtnEliminar))
+                        .addComponent(jBtnEliminar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTxtEscanerAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8)
+                        .addComponent(jBtnEscanearCodigo)
+                        .addGap(8, 8, 8)
+                        .addComponent(jBtnVerCodigo))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -910,6 +931,7 @@ public class VistaAdmin extends javax.swing.JFrame {
     public javax.swing.JButton jBtnCerrarSesion;
     public javax.swing.JButton jBtnEliminar;
     public javax.swing.JButton jBtnEliminarUser;
+    public javax.swing.JButton jBtnEscanearCodigo;
     public javax.swing.JButton jBtnGuardar;
     public javax.swing.JButton jBtnGuardarUser;
     public javax.swing.JButton jBtnInventario;
@@ -925,6 +947,7 @@ public class VistaAdmin extends javax.swing.JFrame {
     public javax.swing.JButton jBtnReporteVentas;
     public javax.swing.JButton jBtnSumarStock;
     public javax.swing.JButton jBtnUser;
+    public javax.swing.JButton jBtnVerCodigo;
     public javax.swing.JComboBox<String> jCboRol;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -969,6 +992,7 @@ public class VistaAdmin extends javax.swing.JFrame {
     public javax.swing.JTextField jTxtBuscarProducto;
     public javax.swing.JTextField jTxtBuscarUsuario;
     public javax.swing.JTextField jTxtCantidadSumar;
+    public javax.swing.JTextField jTxtEscanerAdmin;
     public javax.swing.JTextField jTxtFechaFin;
     public javax.swing.JTextField jTxtFechaInicio;
     public javax.swing.JTextField jTxtFiltroStock;

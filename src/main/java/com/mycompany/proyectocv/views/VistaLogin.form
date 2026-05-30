@@ -259,7 +259,6 @@
             </Component>
             <Component class="javax.swing.JPasswordField" name="jPswContrasenia">
               <Properties>
-                <Property name="editable" type="boolean" value="false"/>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="e1" green="d5" red="cb" type="rgb"/>
                 </Property>

@@ -102,6 +102,9 @@ public class VistaCajero extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         jTblDetalleProductos = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jBtnEscanear = new javax.swing.JButton();
+        jTxtEscaner = new javax.swing.JTextField();
         jBtnMas = new javax.swing.JButton();
         jBtnMenos = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
@@ -758,6 +761,18 @@ public class VistaCajero extends javax.swing.JFrame {
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Quitar Producto");
 
+        jButton3.setBackground(new java.awt.Color(51, 132, 242));
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("Consumidor Final");
+
+        jBtnEscanear.setBackground(new java.awt.Color(27, 135, 85));
+        jBtnEscanear.setForeground(new java.awt.Color(255, 255, 255));
+        jBtnEscanear.setText("📷 ESCANEAR PRODUCTO");
+
+        jTxtEscaner.setBackground(new java.awt.Color(203, 213, 225));
+        jTxtEscaner.setForeground(new java.awt.Color(0, 0, 0));
+        jTxtEscaner.setToolTipText("Escanee el código de barras aquí y presione Enter");
+
         jBtnMas.setBackground(new java.awt.Color(27, 135, 85));
         jBtnMas.setForeground(new java.awt.Color(255, 255, 255));
         jBtnMas.setText("+");
@@ -778,6 +793,10 @@ public class VistaCajero extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jButton2)
                         .addGap(18, 18, 18)
+                        .addComponent(jBtnEscanear)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTxtEscaner, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jBtnMas)
                         .addGap(18, 18, 18)
                         .addComponent(jBtnMenos))
@@ -791,6 +810,8 @@ public class VistaCajero extends javax.swing.JFrame {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
+                    .addComponent(jBtnEscanear)
+                    .addComponent(jTxtEscaner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBtnMas)
                     .addComponent(jBtnMenos))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1021,6 +1042,8 @@ public class VistaCajero extends javax.swing.JFrame {
     public javax.swing.JButton jBtnVerClientes;
     public javax.swing.JButton jButton1;
     public javax.swing.JButton jButton2;
+    public javax.swing.JButton jButton3;
+    public javax.swing.JButton jBtnEscanear;
     public javax.swing.JComboBox<String> jCbxTipoId;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
@@ -1095,5 +1118,6 @@ public class VistaCajero extends javax.swing.JFrame {
     public javax.swing.JTextField jTxtTipoId;
     public javax.swing.JTextField jtxtDireccion;
     public javax.swing.JTextField jtxtFechaEmision;
+    public javax.swing.JTextField jTxtEscaner;
     // End of variables declaration//GEN-END:variables
 }

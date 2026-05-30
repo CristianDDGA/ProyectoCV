@@ -100,7 +100,6 @@ public class VistaLogin extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Contraseña");
 
-        jPswContrasenia.setEditable(false);
         jPswContrasenia.setBackground(new java.awt.Color(203, 213, 225));
         jPswContrasenia.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jPswContrasenia.setForeground(new java.awt.Color(0, 0, 0));

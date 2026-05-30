@@ -11,16 +11,22 @@ import com.mycompany.proyectocv.views.VistaCajero;
 import com.formdev.flatlaf.ui.FlatTabbedPaneUI;
 import com.mycompany.proyectocv.daos.ConexionBD;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -110,7 +116,8 @@ public class VentaController implements ActionListener {
         this.vista.jBtnBuscarCliente.addActionListener(this);
         this.vista.jBtnSeleccionarBuscar.addActionListener(this);
         this.vista.jBtnCrearCliente.addActionListener(this);
-        this.vista.jBtnConsumidorFInal.addActionListener(this); // Consumidor Final
+        this.vista.jBtnConsumidorFInal.addActionListener(this); // Consumidor Final (main)
+        this.vista.jButton3.addActionListener(this);            // Consumidor Final (CodigoBarras)
 
         // Enlazar botón Generar Factura
         this.vista.jBtnGenerarFactura.addActionListener(this);
@@ -134,6 +141,50 @@ public class VentaController implements ActionListener {
         this.vista.jBtnVerClientes.addActionListener(this);
         this.vista.jBtnMas.addActionListener(this);
         this.vista.jBtnMenos.addActionListener(this);
+
+        // Configurar escáner del cajero
+        this.vista.jTxtEscaner.setVisible(false);
+        this.vista.jTxtEscaner.setEnabled(true);
+        this.vista.jBtnEscanear.addActionListener(ev -> activarModoEscaner());
+
+        this.vista.jTxtEscaner.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    e.consume();
+                    SwingUtilities.invokeLater(() -> {
+                        String entrada = vista.jTxtEscaner.getText().trim();
+                        if (!entrada.isEmpty()) {
+                            procesarEscaneo(entrada);
+                        }
+                    });
+                } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    salirModoEscaner();
+                }
+            }
+        });
+
+        this.vista.jTxtEscaner.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                Component opposite = e.getOppositeComponent();
+                if (opposite != null && opposite != vista.jBtnEscanear) {
+                    salirModoEscaner();
+                }
+            }
+        });
+
+        this.vista.addWindowFocusListener(new WindowAdapter() {
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+                if (vista.jTxtEscaner.isVisible()) {
+                    vista.jTxtEscaner.requestFocusInWindow();
+                } else {
+                    vista.jBtnEscanear.requestFocusInWindow();
+                }
+            }
+        });
+
 
         // Configurar buscadores dinámicos
         this.vista.jTxtBuscarCliente.addKeyListener(new KeyAdapter() {
@@ -550,7 +601,7 @@ public class VentaController implements ActionListener {
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(vista, "Por favor ingrese un número entero válido para la cantidad.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
             }
-        } else if (e.getSource() == vista.jBtnConsumidorFInal) {
+        } else if (e.getSource() == vista.jBtnConsumidorFInal || e.getSource() == vista.jButton3) {
             // Consumidor Final
             clienteSeleccionado = null;
             vista.jTxtTipoId.setText("Consumidor Final");
@@ -737,6 +788,73 @@ public class VentaController implements ActionListener {
             return "FACT-001";
         }
     }
+
+    // =======================================================
+    // ESCÁNER DE CÓDIGO DE BARRAS - CAJERO
+    // =======================================================
+
+    private void procesarEscaneo(String codigo) {
+        Producto producto = productoDao.buscarPorCodigo(codigo);
+
+        if (producto == null) {
+            JOptionPane.showMessageDialog(vista,
+                    "Código " + codigo + " no está registrado en el sistema.\n\n"
+                    + "Debe agregar el producto desde el panel de Administración\n"
+                    + "antes de poder venderlo en el cajero.",
+                    "Producto No Registrado", JOptionPane.WARNING_MESSAGE);
+            resetearModoEscaner();
+            return;
+        }
+
+        int stockDisponible = inventarioDao.obtenerStockPorCodigo(codigo);
+        if (stockDisponible <= 0) {
+            JOptionPane.showMessageDialog(vista, "Producto sin stock disponible.\nStock actual: " + stockDisponible, "Stock Agotado", JOptionPane.WARNING_MESSAGE);
+            resetearModoEscaner();
+            return;
+        }
+
+        int cantEnTabla = 0;
+        DefaultTableModel model = (DefaultTableModel) vista.jTblDetalleProductos.getModel();
+        for (int i = 0; i < model.getRowCount(); i++) {
+            if (model.getValueAt(i, 0).toString().equals(codigo)) {
+                cantEnTabla = Integer.parseInt(model.getValueAt(i, 2).toString());
+                break;
+            }
+        }
+
+        if (cantEnTabla + 1 > stockDisponible) {
+            JOptionPane.showMessageDialog(vista, "No hay suficiente stock.\nStock disponible: " + stockDisponible + "\nYa en carrito: " + cantEnTabla, "Stock Insuficiente", JOptionPane.WARNING_MESSAGE);
+            resetearModoEscaner();
+            return;
+        }
+
+        agregarProductoALaTabla(codigo, producto.getNombre(), 1, producto.getPrecio());
+        // Escaneo exitoso: limpia y queda listo para el próximo
+        vista.jTxtEscaner.setText("");
+        vista.jTxtEscaner.requestFocusInWindow();
+    }
+
+    /** Activa el modo escáner: muestra el campo y le da foco */
+    private void activarModoEscaner() {
+        vista.jTxtEscaner.setText("");
+        vista.jTxtEscaner.setVisible(true);
+        vista.jBtnEscanear.setText("📷 ESCANEE EL PRODUCTO...");
+        SwingUtilities.invokeLater(() -> vista.jTxtEscaner.requestFocusInWindow());
+    }
+
+    /** Sale del modo escáner: oculta campo, restaura el botón */
+    private void salirModoEscaner() {
+        vista.jTxtEscaner.setText("");
+        vista.jTxtEscaner.setVisible(false);
+        vista.jBtnEscanear.setText("📷 ESCANEAR PRODUCTO");
+        vista.jBtnEscanear.requestFocusInWindow();
+    }
+
+    /** Resetea tras un error de escaneo */
+    private void resetearModoEscaner() {
+        salirModoEscaner();
+    }
+
     
  private void imprimirFactura(String numeroFactura) {
         try {
